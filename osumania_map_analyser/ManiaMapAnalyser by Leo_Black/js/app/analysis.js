@@ -9,6 +9,7 @@ import { classifyCompanellaDifficulty } from "../estimator/companellaEstimator.j
 import { calculateInterludeStar } from "../interlude/index.js";
 import { analyzePatternFromText } from "../patterns/service.js";
 import { OsuFileParser } from "../parser/osuFileParser.js";
+import { runInWorker } from "./worker/manager.js";
 import {
     analyzeEtternaFromText,
     DEFAULT_SCORE_GOAL as ETT_DEFAULT_SCORE_GOAL,
@@ -359,12 +360,14 @@ export async function fetchBeatmapFile(reason) {
                 && typeof result.estDiff === "string";
 
             if (estimatorAlgorithm === "Daniel") {
-                selectedRework = runDanielEstimatorFromText(rawText, estimatorOptions);
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm });
+                selectedRework = wp ? await wp : runDanielEstimatorFromText(rawText, estimatorOptions);
                 nextEstDiff = selectedRework.estDiff;
                 nextNumericDifficulty = selectedRework.numericDifficulty;
                 nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
             } else if (estimatorAlgorithm === "Azusa") {
-                selectedRework = runAzusaEstimatorFromText(rawText, azusaOptions);
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm, forceSunnyReferenceHo: state.azusaSunnyReferenceHo });
+                selectedRework = wp ? await wp : runAzusaEstimatorFromText(rawText, azusaOptions);
                 if (!isValidEstimatorResult(selectedRework)) {
                     selectedRework = runSunnyEstimatorFromText(rawText, estimatorOptions);
                     actualEstimatorAlgorithm = "Sunny";
@@ -385,7 +388,8 @@ export async function fetchBeatmapFile(reason) {
                 nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
                 pendingMixedCompanellaContext = selectedRework.mixedCompanellaPlan || null;
             } else {
-                selectedRework = runSunnyEstimatorFromText(rawText, estimatorOptions);
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm: "Sunny" });
+                selectedRework = wp ? await wp : runSunnyEstimatorFromText(rawText, estimatorOptions);
                 nextEstDiff = selectedRework.estDiff;
                 nextNumericDifficulty = selectedRework.numericDifficulty;
                 nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
@@ -564,9 +568,12 @@ export async function fetchBeatmapFile(reason) {
                 }
             }
 
-            const diffText = GRAPH_SUPPORTED_KEY_SET.has(rework.columnCount)
+            const rawDiffText = GRAPH_SUPPORTED_KEY_SET.has(rework.columnCount)
                 ? formatDiffForDisplay(resolvedEstDiff)
                 : "Unsupported Keys";
+            const diffText = (Number.isFinite(resolvedNumericDifficulty) && resolvedNumericDifficulty >= 18.5)
+                ? "> Cloverwisp Theta high"
+                : rawDiffText;
             setEstimateDifficultyText(diffText);
         }
 
@@ -590,7 +597,11 @@ export async function fetchBeatmapFile(reason) {
         setSvTagVisible(shouldShowSvTag);
 
         if (rework) {
-            setNumericDifficultyValue(resolvedNumericDifficulty, resolvedNumericDifficultyHint);
+            const cappedDiff = Number.isFinite(resolvedNumericDifficulty) && resolvedNumericDifficulty >= 18.5
+                ? null
+                : resolvedNumericDifficulty;
+            const cappedHint = cappedDiff === null ? "N/A" : resolvedNumericDifficultyHint;
+            setNumericDifficultyValue(cappedDiff, cappedHint);
         }
 
         setForceHideNumericDifficulty(isVibroMap);

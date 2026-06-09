@@ -93,8 +93,29 @@ function ensurePayload() {
             ...DEFAULT_RUNTIME,
             ...(payload.runtime && typeof payload.runtime === "object" ? payload.runtime : {}),
         },
+        theme: payload.theme && typeof payload.theme === "object" ? payload.theme : null,
         postRenderDelayMs: Number(payload.postRenderDelayMs) || 700,
     };
+}
+
+function applyRenderTheme(theme) {
+    const root = document.documentElement;
+    if (!theme || typeof theme !== "object") {
+        return;
+    }
+
+    if (typeof theme.accent === "string" && theme.accent.trim()) {
+        root.style.setProperty("--ma-accent", theme.accent.trim());
+    }
+
+    if (
+        theme.hasCover
+        && typeof theme.coverDataUri === "string"
+        && theme.coverDataUri.startsWith("data:")
+    ) {
+        root.style.setProperty("--ma-cover", `url("${theme.coverDataUri}")`);
+        root.classList.add("ma-has-cover");
+    }
 }
 
 function installBeatmapFetchBridge(osuText) {
@@ -183,6 +204,7 @@ async function waitForRenderSettled(maxWaitMs, settleDelayMs) {
 async function renderFromPayload() {
     const payload = ensurePayload();
     installBeatmapFetchBridge(payload.osuText);
+    applyRenderTheme(payload.theme);
     applyRenderSettings(payload.settings);
     applyRenderRuntime(payload.runtime);
     setRecomputeHandler(fetchBeatmapFile);

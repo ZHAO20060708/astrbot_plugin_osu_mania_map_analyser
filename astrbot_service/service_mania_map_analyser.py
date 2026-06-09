@@ -7,6 +7,7 @@ from typing import Any
 from uuid import uuid4
 
 from .browser_runtime import ChromiumRenderRuntime, RenderRequest
+from .cover_theme import build_cover_theme
 from .downloader import download_beatmap_file
 from .errors import ManiaMapAnalyserError, NonManiaBeatmapError
 
@@ -64,6 +65,14 @@ class ManiaMapAnalyserService:
             "runtime": effective_runtime,
             "postRenderDelayMs": 700,
         }
+
+        theme = build_cover_theme(
+            osu_text=osu_text,
+            cache_dir=self.temp_root / "cover-cache",
+        )
+        if theme:
+            payload["theme"] = theme
+
         self.runtime.render(
             RenderRequest(
                 output_path=output_path,

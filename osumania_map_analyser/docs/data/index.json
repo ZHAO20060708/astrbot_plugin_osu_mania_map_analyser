@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-25T07:53:45.532Z",
+  "generatedAt": "2026-06-07T10:50:02.878Z",
   "algorithms": [
     "Azusa",
     "Companella",
@@ -12,38 +12,38 @@
     {
       "fileName": "Azusa.csv",
       "algorithm": "Azusa",
-      "sizeBytes": 27666,
-      "modifiedAt": "2026-04-24T12:53:49.608Z"
+      "sizeBytes": 63048,
+      "modifiedAt": "2026-06-07T10:50:02.862Z"
     },
     {
       "fileName": "Companella.csv",
       "algorithm": "Companella",
-      "sizeBytes": 23870,
-      "modifiedAt": "2026-04-24T12:53:49.609Z"
+      "sizeBytes": 59042,
+      "modifiedAt": "2026-06-07T10:45:53.752Z"
     },
     {
       "fileName": "Daniel.csv",
       "algorithm": "Daniel",
-      "sizeBytes": 29710,
-      "modifiedAt": "2026-04-24T12:53:49.610Z"
+      "sizeBytes": 67505,
+      "modifiedAt": "2026-06-07T10:45:03.154Z"
     },
     {
       "fileName": "Legacy.csv",
       "algorithm": "Legacy",
-      "sizeBytes": 12205,
-      "modifiedAt": "2026-04-16T18:14:19.218Z"
+      "sizeBytes": 12174,
+      "modifiedAt": "2026-04-28T13:57:01.083Z"
     },
     {
       "fileName": "Mixed.csv",
       "algorithm": "Mixed",
-      "sizeBytes": 23623,
-      "modifiedAt": "2026-04-25T07:53:45.521Z"
+      "sizeBytes": 59335,
+      "modifiedAt": "2026-06-07T10:47:03.984Z"
     },
     {
       "fileName": "Sunny.csv",
       "algorithm": "Sunny",
-      "sizeBytes": 23870,
-      "modifiedAt": "2026-04-24T12:53:49.613Z"
+      "sizeBytes": 59042,
+      "modifiedAt": "2026-06-07T10:44:32.065Z"
     }
   ]
 }

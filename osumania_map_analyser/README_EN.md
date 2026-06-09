@@ -33,11 +33,10 @@ This repository is an in-game overlay (pp counter) for [tosu](https://tosu.app),
 ## Notes
 1. The plugin needs to run in the `static` directory of tosu. Ensure it is placed directly in that directory, not nested inside another folder.
 2. This plugin relies on the correct parsing of beatmap data. Certain special or non-standard beatmaps may lead to inaccurate analysis results.
-3. The pause detection feature includes a threshold mechanism (default 500ms), which can be adjusted in settings. If game lag causes false positives, consider increasing the threshold.
-4. The SV detection feature is experimental and may have a high rate of false positives; use it with caution.
-5. Although the difficulty estimation algorithms have been tuned, inaccuracies may still exist; please use them only as a reference. For 4K, high difficulties are generally more accurate with an overall error of no more than half a Dan, while low difficulties may be less accurate; in specific patterns like Minijack, Stamina, and Anchor, the estimation results may have larger deviations. For 6K and 7K, the overall performance is relatively average. It is recommended that players combine the estimation results with their actual gameplay experience for judgment and not rely too heavily on the estimates.
-6. The plugin's performance may be affected by the complexity of the beatmap and the features selected; in some cases, lag or delays may occur. Please adjust the settings according to your actual situation for a better experience.
-7. If you encounter any issues, feel free to submit an issue.
+3. If game lag causes false positives, consider increasing the pause detection threshold.
+4. Although the difficulty estimation algorithms have been tuned, inaccuracies may still exist; please use them only as a reference. For 4K, high difficulties are generally more accurate with an overall error of no more than half a Dan, while low difficulties may be less accurate; in specific patterns like Minijack, Stamina, and Anchor, the estimation results may have larger deviations. For 6K and 7K, the overall performance is relatively average. It is recommended that players combine the estimation results with their actual gameplay experience for judgment and not rely too heavily on the estimates.
+5. The plugin's performance may be affected by the complexity of the beatmap and the features selected; in some cases, lag or delays may occur. Please adjust the settings according to your actual situation for a better experience.
+6. If you encounter any issues, feel free to submit an issue.
 
 ## Settings
 Note: It is recommended to start with the default settings and then adjust according to personal preference.
@@ -93,6 +92,9 @@ Note: It is recommended to start with the default settings and then adjust accor
     - **SV Detection**: Whether to enable SV beatmap detection.
         - When enabled, an SV tag will be displayed in the bottom left corner when SV is detected.
         - Note: If the display of beatmap tag capsules is not enabled, the SV tag will not be displayed.
+    - **Pause Detection Threshold**: Set the minimum duration (ms) for a time freeze to be counted as a pause.
+        - A pause is only confirmed when the game time has been frozen for longer than this threshold.
+        - Default is 500ms. If game lag causes false positives, increase this value.
     - **Estimator Algorithm**: Choose the algorithm used for difficulty estimation.
         - Mixed: (Recommended) A hybrid algorithm combining the four below, offering relatively higher accuracy. Automatically selects the algorithm best suited for the current beatmap.
         - Azusa: A hybrid algorithm oriented towards 4K RC, combining the below algorithms with specific adjustments, performing well in RC scenarios but not suitable for LN-dominant beatmaps.
@@ -121,9 +123,6 @@ Note: It is recommended to start with the default settings and then adjust accor
     - **Azusa Sunny Reference Force HO**
         - When enabled, the Azusa algorithm will be forced to treat the beatmap as a pure RC map.
         - It is enabled by default; please do not disable it casually. 
-    - **Pause Detection Threshold**: Set the minimum duration (ms) for a time freeze to be counted as a pause.
-        - A pause is only confirmed when the game time has been frozen for longer than this threshold.
-        - Default is 500ms. If game lag causes false positives, increase this value.
 
 ## Azusa Algorithm Explanation
 This algorithm is a hybrid based on the beatmap itself, combining the results of Daniel and Suuny Rework, with specific adjustments for 4K RC beatmaps. For more details, please refer to [this document](azusa_algorithm.md).
