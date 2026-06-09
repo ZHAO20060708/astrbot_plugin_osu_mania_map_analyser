@@ -64,8 +64,12 @@ HELP_TEXT = "\n".join(
 class ManiaMapAnalyserPlugin(Star):
     """AstrBot 插件入口"""
 
-    def __init__(self, context: Context, config: AstrBotConfig) -> None:
+    def __init__(self, context: Context, config: AstrBotConfig = None) -> None:
         super().__init__(context)
+
+        # 兼容旧版本 AstrBot：如果没有传递 config，使用空的配置
+        if config is None:
+            config = {}
 
         # 获取插件专属数据目录（AstrBot 标准路径）
         plugin_data_path = Path(get_astrbot_data_path()) / "plugin_data" / "astrbot_plugin_osu_mania_map_analyser"
