@@ -9,7 +9,6 @@ import astrbot.api.message_components as Comp
 from astrbot.api import AstrBotConfig, logger
 from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.star import Context, Star, register
-from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 
 PLUGIN_ROOT = Path(__file__).resolve().parent
 if str(PLUGIN_ROOT) not in sys.path:
@@ -64,20 +63,11 @@ HELP_TEXT = "\n".join(
 class ManiaMapAnalyserPlugin(Star):
     """AstrBot 插件入口"""
 
-    def __init__(self, context: Context, config: AstrBotConfig = None) -> None:
+    def __init__(self, context: Context, config: AstrBotConfig) -> None:
         super().__init__(context)
-
-        # 兼容旧版本 AstrBot：如果没有传递 config，使用空的配置
-        if config is None:
-            config = {}
-
-        # 获取插件专属数据目录（AstrBot 标准路径）
-        plugin_data_path = Path(get_astrbot_data_path()) / "plugin_data" / "astrbot_plugin_osu_mania_map_analyser"
-        plugin_data_path.mkdir(parents=True, exist_ok=True)
 
         self.render_service = ManiaMapAnalyserService(
             plugin_root=PLUGIN_ROOT,
-            plugin_data_path=plugin_data_path,
             render_config={
                 "capture_target": config.get("capture_target", "full_card"),
                 "content_bar": config.get("content_bar", "Auto"),
@@ -142,7 +132,8 @@ class ManiaMapAnalyserPlugin(Star):
         try:
             async with self._render_semaphore:
                 result = await asyncio.wait_for(
-                    self.render_service.generate_from_bid(
+                    asyncio.to_thread(
+                        self.render_service.generate_from_bid,
                         bid,
                         render_overrides,
                         runtime_overrides,

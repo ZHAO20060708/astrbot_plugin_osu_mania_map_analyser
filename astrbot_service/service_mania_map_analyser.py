@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import re
 from pathlib import Path
 from typing import Any
@@ -14,13 +15,15 @@ from .errors import ManiaMapAnalyserError, NonManiaBeatmapError
 class ManiaMapAnalyserService:
     """把 beatmap 下载、缓存和 Playwright 渲染隔离在 service 层"""
 
-    def __init__(self, plugin_root: Path, plugin_data_path: Path, render_config: dict[str, Any]) -> None:
+    def __init__(self, plugin_root: Path, render_config: dict[str, Any]) -> None:
         self.plugin_root = plugin_root
-        self.plugin_data_path = plugin_data_path
+        # 使用 plugin_root 的 data 子目录作为数据存储目录
+        self.plugin_data_path = plugin_root / "data"
+        self.plugin_data_path.mkdir(parents=True, exist_ok=True)
         self.render_settings = self._normalize_render_settings(render_config)
         self.runtime = ChromiumRenderRuntime(static_root=self.plugin_root)
 
-    async def generate_from_bid(
+    def generate_from_bid(
         self,
         bid: str,
         render_overrides: dict[str, Any],
@@ -40,7 +43,11 @@ class ManiaMapAnalyserService:
             f"{effective_runtime['odFlag'] or 'none'}|"
             f"{effective_runtime['cvtFlag'] or 'none'}"
         )
-        output_path = self.plugin_data_path / "outputs" / f"{bid}_{uuid4().hex[:16]}.png"
+
+        # 确保输出目录存在
+        output_dir = self.plugin_data_path / "outputs"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / f"{bid}_{uuid4().hex[:16]}.png"
 
         beatmap_path = download_beatmap_file(
             bid=bid,
@@ -65,10 +72,23 @@ class ManiaMapAnalyserService:
             "postRenderDelayMs": 700,
         }
 
-        theme = await build_cover_theme(
-            osu_text=osu_text,
-            cache_dir=self.plugin_data_path / "cover-cache",
-        )
+        # 同步调用异步的 build_cover_theme
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # 如果已经在事件循环中，创建新的事件循环
+                theme = asyncio.run(build_cover_theme(
+                    osu_text=osu_text,
+                    cache_dir=self.plugin_data_path / "cover-cache",
+                ))
+            else:
+                theme = loop.run_until_complete(build_cover_theme(
+                    osu_text=osu_text,
+                    cache_dir=self.plugin_data_path / "cover-cache",
+                ))
+        except Exception:
+            theme = None
+
         if theme:
             payload["theme"] = theme
 
