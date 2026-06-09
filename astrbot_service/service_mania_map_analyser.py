@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import re
-import tempfile
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -15,13 +14,13 @@ from .errors import ManiaMapAnalyserError, NonManiaBeatmapError
 class ManiaMapAnalyserService:
     """把 beatmap 下载、缓存和 Playwright 渲染隔离在 service 层"""
 
-    def __init__(self, plugin_root: Path, render_config: dict[str, Any]) -> None:
+    def __init__(self, plugin_root: Path, plugin_data_path: Path, render_config: dict[str, Any]) -> None:
         self.plugin_root = plugin_root
-        self.temp_root = Path(tempfile.gettempdir()) / "astrbot_plugin_osu_mania_map_analyser"
+        self.plugin_data_path = plugin_data_path
         self.render_settings = self._normalize_render_settings(render_config)
         self.runtime = ChromiumRenderRuntime(static_root=self.plugin_root)
 
-    def generate_from_bid(
+    async def generate_from_bid(
         self,
         bid: str,
         render_overrides: dict[str, Any],
@@ -41,11 +40,11 @@ class ManiaMapAnalyserService:
             f"{effective_runtime['odFlag'] or 'none'}|"
             f"{effective_runtime['cvtFlag'] or 'none'}"
         )
-        output_path = self.temp_root / "outputs" / f"{bid}_{uuid4().hex[:16]}.png"
+        output_path = self.plugin_data_path / "outputs" / f"{bid}_{uuid4().hex[:16]}.png"
 
         beatmap_path = download_beatmap_file(
             bid=bid,
-            temp_dir=self.temp_root / "osu-download-cache",
+            temp_dir=self.plugin_data_path / "osu-download-cache",
         )
 
         try:
@@ -66,9 +65,9 @@ class ManiaMapAnalyserService:
             "postRenderDelayMs": 700,
         }
 
-        theme = build_cover_theme(
+        theme = await build_cover_theme(
             osu_text=osu_text,
-            cache_dir=self.temp_root / "cover-cache",
+            cache_dir=self.plugin_data_path / "cover-cache",
         )
         if theme:
             payload["theme"] = theme

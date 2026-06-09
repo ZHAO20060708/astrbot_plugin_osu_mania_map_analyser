@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import colorsys
 import io
@@ -13,7 +14,6 @@ import logging
 import re
 import zipfile
 from pathlib import Path
-from urllib.request import Request, urlopen
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ _COVER_JPEG_QUALITY = 80
 _BEATMAPSET_ID_RE = re.compile(r"(?mi)^\s*BeatmapSetID\s*:\s*(\d+)\s*$")
 
 
-def build_cover_theme(osu_text: str, cache_dir: Path) -> dict | None:
+async def build_cover_theme(osu_text: str, cache_dir: Path) -> dict | None:
     """返回 {"accent": "#rrggbb", "coverDataUri": "data:image/jpeg;base64,...",
     "hasCover": True}；任何失败都返回 None。"""
 
@@ -52,7 +52,7 @@ def build_cover_theme(osu_text: str, cache_dir: Path) -> dict | None:
         logger.warning(f"Pillow 未安装或导入失败，无法加载封面主题: {exc}")
         return None
 
-    raw = _load_cover_bytes(set_id, cache_dir)
+    raw = await _load_cover_bytes(set_id, cache_dir)
     if not raw:
         logger.info(f"未能下载 beatmapset {set_id} 的封面，使用默认主题")
         return None
@@ -86,8 +86,8 @@ def _parse_beatmapset_id(osu_text: str) -> str | None:
     return set_id if set_id and set_id != "-1" else None
 
 
-def _load_cover_bytes(set_id: str, cache_dir: Path) -> bytes | None:
-    """从缓存或 osz 文件中加载封面图片的字节数据"""
+async def _load_cover_bytes(set_id: str, cache_dir: Path) -> bytes | None:
+    """从缓存或网络异步加载封面图片的字节数据"""
     try:
         cache_dir.mkdir(parents=True, exist_ok=True)
     except Exception as exc:
@@ -99,7 +99,7 @@ def _load_cover_bytes(set_id: str, cache_dir: Path) -> bytes | None:
     if cached and cached.is_file() and cached.stat().st_size > 0:
         try:
             logger.debug(f"从缓存加载封面: {cached}")
-            return cached.read_bytes()
+            return await asyncio.to_thread(cached.read_bytes)
         except Exception as exc:
             logger.debug(f"读取缓存封面失败: {exc}")
 
@@ -107,12 +107,12 @@ def _load_cover_bytes(set_id: str, cache_dir: Path) -> bytes | None:
     for variant in _COVER_VARIANTS:
         url = _COVER_HOST.format(set_id=set_id, variant=variant)
         logger.debug(f"尝试下载封面: {url}")
-        data = _http_get(url)
+        data = await _http_get_async(url)
         if data:
             logger.info(f"成功下载封面 {variant} (set_id={set_id}, size={len(data)} bytes)")
             if cached:
                 try:
-                    cached.write_bytes(data)
+                    await asyncio.to_thread(cached.write_bytes, data)
                     logger.debug(f"封面已缓存到: {cached}")
                 except Exception as exc:
                     logger.debug(f"写入封面缓存失败: {exc}")
@@ -122,13 +122,13 @@ def _load_cover_bytes(set_id: str, cache_dir: Path) -> bytes | None:
 
     # 3. CDN 失败后，尝试下载 osz 文件并提取背景
     logger.info(f"CDN 封面下载失败，尝试从 osz 提取 (set_id={set_id})")
-    cover_data = _extract_cover_from_osz(set_id, cache_dir)
+    cover_data = await _extract_cover_from_osz_async(set_id, cache_dir)
     if cover_data:
         logger.info(f"成功从 osz 提取封面 (set_id={set_id}, size={len(cover_data)} bytes)")
         # 写入缓存
         if cached:
             try:
-                cached.write_bytes(cover_data)
+                await asyncio.to_thread(cached.write_bytes, cover_data)
                 logger.debug(f"封面已缓存到: {cached}")
             except Exception as exc:
                 logger.debug(f"写入封面缓存失败: {exc}")
@@ -138,8 +138,8 @@ def _load_cover_bytes(set_id: str, cache_dir: Path) -> bytes | None:
     return None
 
 
-def _extract_cover_from_osz(set_id: str, cache_dir: Path | None) -> bytes | None:
-    """下载 osz 文件并从中提取背景图片"""
+async def _extract_cover_from_osz_async(set_id: str, cache_dir: Path | None) -> bytes | None:
+    """异步下载 osz 文件并从中提取背景图片"""
     # 下载 osz 到临时位置
     osz_cache_path = cache_dir / f"{set_id}.osz" if cache_dir else None
 
@@ -154,7 +154,7 @@ def _extract_cover_from_osz(set_id: str, cache_dir: Path | None) -> bytes | None
         for source_url in _OSZ_DOWNLOAD_SOURCES:
             url = source_url.format(set_id=set_id)
             logger.debug(f"尝试从镜像下载 osz: {url}")
-            osz_data = _http_get(url, timeout=45)
+            osz_data = await _http_get_async(url, timeout=45)
             if osz_data:
                 logger.info(f"成功从镜像下载 osz (set_id={set_id}, size={len(osz_data)} bytes)")
                 break
@@ -168,7 +168,7 @@ def _extract_cover_from_osz(set_id: str, cache_dir: Path | None) -> bytes | None
         # 缓存 osz 文件（可选）
         if osz_cache_path:
             try:
-                osz_cache_path.write_bytes(osz_data)
+                await asyncio.to_thread(osz_cache_path.write_bytes, osz_data)
                 logger.debug(f"osz 已缓存到: {osz_cache_path}")
             except Exception as exc:
                 logger.debug(f"写入 osz 缓存失败: {exc}")
@@ -179,17 +179,27 @@ def _extract_cover_from_osz(set_id: str, cache_dir: Path | None) -> bytes | None
     try:
         if osz_path:
             # 从文件路径打开
-            with zipfile.ZipFile(osz_path, 'r') as zf:
-                cover_data = _find_background_in_zip(zf, set_id)
+            cover_data = await asyncio.to_thread(_extract_from_zip_file, osz_path, set_id)
         else:
             # 从字节数据打开
-            with zipfile.ZipFile(io.BytesIO(osz_data), 'r') as zf:
-                cover_data = _find_background_in_zip(zf, set_id)
+            cover_data = await asyncio.to_thread(_extract_from_zip_bytes, osz_data, set_id)
 
         return cover_data
     except Exception as exc:
         logger.debug(f"从 osz 提取背景失败 (set_id={set_id}): {exc}")
         return None
+
+
+def _extract_from_zip_file(osz_path: Path, set_id: str) -> bytes | None:
+    """从 zip 文件路径提取背景（同步操作，用于 asyncio.to_thread）"""
+    with zipfile.ZipFile(osz_path, 'r') as zf:
+        return _find_background_in_zip(zf, set_id)
+
+
+def _extract_from_zip_bytes(osz_data: bytes, set_id: str) -> bytes | None:
+    """从 zip 字节数据提取背景（同步操作，用于 asyncio.to_thread）"""
+    with zipfile.ZipFile(io.BytesIO(osz_data), 'r') as zf:
+        return _find_background_in_zip(zf, set_id)
 
 
 def _find_background_in_zip(zf: zipfile.ZipFile, set_id: str) -> bytes | None:
@@ -273,16 +283,29 @@ def _parse_background_filename(osu_text: str) -> str | None:
     return None
 
 
-def _http_get(url: str, timeout: int = 30) -> bytes | None:
-    """HTTP GET 请求辅助函数"""
-    request = Request(url, headers={"User-Agent": _USER_AGENT})
+async def _http_get_async(url: str, timeout: int = 30) -> bytes | None:
+    """异步 HTTP GET 请求"""
     try:
-        with urlopen(request, timeout=timeout) as response:
-            if getattr(response, "status", 200) != 200:
-                logger.debug(f"HTTP 请求失败，状态码: {response.status}")
-                return None
-            data = response.read()
-        return data or None
+        import aiohttp
+    except ImportError:
+        logger.warning("aiohttp 未安装，无法进行异步 HTTP 请求")
+        return None
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(
+                url,
+                headers={"User-Agent": _USER_AGENT},
+                timeout=aiohttp.ClientTimeout(total=timeout)
+            ) as response:
+                if response.status != 200:
+                    logger.debug(f"HTTP 请求失败，状态码: {response.status}")
+                    return None
+                data = await response.read()
+                return data or None
+    except asyncio.TimeoutError:
+        logger.debug(f"HTTP 请求超时 ({url})")
+        return None
     except Exception as exc:
         logger.debug(f"HTTP 请求失败 ({url}): {exc}")
         return None

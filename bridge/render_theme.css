@@ -5,8 +5,8 @@
    设计要点：
    - 整张卡片的色调由 --ma-accent（取自谱面背景主色）经 color-mix 派生；
      渲染桥的 JS 会在出图前把它设成 map 背景的主色。
-   - osu! 招牌三角纹铺在卡片背景层（pattern 块除外）。
-   - map 背景图只垫在 #pattern-clusters（pattern 那块）后面，且压暗保证可读。
+   - osu! 招牌三角纹铺在卡片背景层（所有内容块之外）。
+   - map 背景图垫在 pattern/etterna/graph 块后面，且压暗保证可读。
    - 不要白边：capture-surface 去内边距并垫主题深色，卡片边框去白。
    - 绝不碰 .star-value —— star 的颜色由 display.js 内联设置，保持不变。
    ========================================================================= */
@@ -114,6 +114,41 @@
         color-mix(in srgb, var(--ma-accent) 62%, white) 100%);
 }
 
+/* ---- etterna 块：同样垫 map 背景 ------------------------------------ */
+#ett-skill-bars.ett-skill-bars:not([hidden]) {
+    position: relative;
+    margin-top: 2px;
+    margin-bottom: 25px;
+    padding: 13px 13px 22px;
+    border-radius: 14px;
+    border: 1px solid color-mix(in srgb, var(--ma-accent) 32%, transparent);
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--ma-accent) 14%, #06070b);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+}
+
+/* etterna 背景图 + 压暗罩层 */
+#ett-skill-bars.ett-skill-bars:not([hidden])::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--ma-accent) 24%, rgba(6, 7, 12, 0.70)) 0%,
+            color-mix(in srgb, var(--ma-accent) 14%, rgba(6, 7, 12, 0.86)) 100%),
+        var(--ma-cover);
+    background-size: cover, auto 100%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    pointer-events: none;
+}
+
+#ett-skill-bars.ett-skill-bars:not([hidden]) > * {
+    position: relative;
+    z-index: 1;
+}
+
 /* 非彩虹的 etterna 条退一个主题色兜底（彩虹模式下 JS 内联值仍优先） */
 .ett-skill-fill {
     --ett-fill-bg: linear-gradient(90deg,
@@ -122,8 +157,35 @@
         color-mix(in srgb, var(--ma-accent) 62%, white) 100%);
 }
 
-/* ---- graph_only 模式：同样去白边，垫主题深色 ------------------------- */
+/* ---- graph_only 模式：同样垫 map 背景 -------------------------------- */
 #body-graph-wrap {
-    background: color-mix(in srgb, var(--ma-accent) 12%, #06070b);
+    position: relative;
+    padding: 16px;
     border-radius: 12px;
+    border: 1px solid color-mix(in srgb, var(--ma-accent) 32%, transparent);
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--ma-accent) 12%, #06070b);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
+}
+
+/* graph 背景图 + 压暗罩层 */
+#body-graph-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--ma-accent) 20%, rgba(6, 7, 12, 0.75)) 0%,
+            color-mix(in srgb, var(--ma-accent) 12%, rgba(6, 7, 12, 0.88)) 100%),
+        var(--ma-cover);
+    background-size: cover, auto 100%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    pointer-events: none;
+}
+
+#body-graph-wrap > * {
+    position: relative;
+    z-index: 1;
 }
