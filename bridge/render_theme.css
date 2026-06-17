@@ -143,6 +143,7 @@
 .card.main-card.bars-full #ett-skill-bars.ett-skill-bars:not([hidden]),
 .card.main-card.bars-full #body-graph-wrap:not([hidden]) {
     margin: 0;
+    background: transparent;
     background-color: transparent;
     box-shadow: none;
 }
@@ -239,4 +240,23 @@
 #body-graph-wrap > * {
     position: relative;
     z-index: 1;
+}
+
+/* ---- graph 曲线：跟随 map 主色 ---------------------------------------- */
+.star-graph-line {
+    stroke: color-mix(in srgb, var(--ma-accent) 60%, white);
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--ma-accent) 55%, transparent));
+}
+
+.star-graph-fill {
+    fill: color-mix(in srgb, var(--ma-accent) 40%, transparent);
+}
+
+.star-graph-cursor-dot {
+    fill: #ffffff;
+    stroke: color-mix(in srgb, var(--ma-accent) 75%, white);
+}
+
+.star-graph.loading .star-graph-line {
+    filter: none;
 }
