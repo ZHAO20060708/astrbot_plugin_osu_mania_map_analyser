@@ -6,7 +6,7 @@
    - 整张卡片的色调由 --ma-accent（取自谱面背景主色）经 color-mix 派生；
      渲染桥的 JS 会在出图前把它设成 map 背景的主色。
    - osu! 招牌三角纹铺在卡片背景层（所有内容块之外）。
-   - map 背景图垫在 pattern/etterna/graph 块后面，且压暗保证可读。
+   - map 背景图垫在主体内容后面；Full 模式只铺一张，避免三块重复。
    - 不要白边：capture-surface 去内边距并垫主题深色，卡片边框去白。
    - 绝不碰 .star-value —— star 的颜色由 display.js 内联设置，保持不变。
    ========================================================================= */
@@ -29,6 +29,43 @@
 #capture-surface {
     padding: 0 !important;
     background: color-mix(in srgb, var(--ma-accent) 12%, #050609);
+}
+
+/* ---- full 卡主体：三块内容共用一个背景层 ----------------------------- */
+.card-body-shell {
+    display: contents;
+}
+
+.card.main-card.bars-full .card-body-shell {
+    display: grid;
+    gap: 10px;
+    position: relative;
+    padding: 6px 0 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--ma-accent) 14%, #06070b);
+}
+
+.card.main-card.bars-full .card-body-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--ma-accent) 24%, rgba(6, 7, 12, 0.70)) 0%,
+            color-mix(in srgb, var(--ma-accent) 14%, rgba(6, 7, 12, 0.86)) 100%),
+        var(--ma-cover);
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    filter: blur(var(--ma-cover-blur, 0px));
+    pointer-events: none;
+}
+
+.card.main-card.bars-full .card-body-shell > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* ---- 卡片本体：主题深色渐变 + 去白边框 -------------------------------- */
@@ -68,7 +105,7 @@
     pointer-events: none;
 }
 
-/* ---- pattern 块：唯一垫 map 背景的区域 -------------------------------- */
+/* ---- pattern 块 -------------------------------------------------------- */
 #pattern-clusters.cluster-bars {
     position: relative;
     margin-top: 2px;
@@ -100,6 +137,20 @@
 #pattern-clusters.cluster-bars > * {
     position: relative;
     z-index: 1;
+}
+
+.card.main-card.bars-full #pattern-clusters.cluster-bars,
+.card.main-card.bars-full #ett-skill-bars.ett-skill-bars:not([hidden]),
+.card.main-card.bars-full #body-graph-wrap:not([hidden]) {
+    margin: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.card.main-card.bars-full #pattern-clusters.cluster-bars::before,
+.card.main-card.bars-full #ett-skill-bars.ett-skill-bars:not([hidden])::before,
+.card.main-card.bars-full #body-graph-wrap:not([hidden])::before {
+    content: none;
 }
 
 /* ---- cluster 条形图：跟随 map 主色 ------------------------------------ */

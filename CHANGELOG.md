@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.6
+
+- Unified the full-card body background into a single shared shell during
+  bridge rendering, so Pattern / Etterna / Graph no longer repeat the same
+  beatmap cover background three times.
+- Updated plugin version metadata to `0.1.6`.
+
 ## 0.1.4
 
 - Fixed Python 3.14 compatibility in the render service by removing thread-local
