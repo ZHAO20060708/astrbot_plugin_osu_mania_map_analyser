@@ -36,13 +36,13 @@ import {
 
 const DEFAULT_SETTINGS = Object.freeze({
     contentBar: "Auto",
-    srText: "Auto",
+    srText: "ReworkSR",
     diffText: "Difficulty",
     estimatorAlgorithm: "Mixed",
     etternaVersion: "0.72.3",
     companellaEtternaVersion: "0.74.0",
     enableNumericDifficulty: true,
-    enableEtternaRainbowBars: true,
+    enableEtternaRainbowBars: false,
     enableStatusMarquee: true,
     showModeTagCapsule: true,
     vibroDetection: true,
@@ -50,7 +50,7 @@ const DEFAULT_SETTINGS = Object.freeze({
     useSvDetection: true,
     azusaSunnyReferenceHo: true,
     cardOpacity: "95%",
-    cardBlur: "Soft",
+    cardBlur: "4px",
     cardRadius: "Medium",
     wsEndpoint: "127.0.0.1:24050",
 });

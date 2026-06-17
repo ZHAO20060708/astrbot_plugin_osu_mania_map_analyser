@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import re
 import sys
 from pathlib import Path
@@ -16,6 +17,88 @@ if str(PLUGIN_ROOT) not in sys.path:
 
 from astrbot_service.service_mania_map_analyser import ManiaMapAnalyserService
 from astrbot_service.errors import ManiaMapAnalyserError
+
+SCHEMA_PATH = PLUGIN_ROOT / "_conf_schema.json"
+SCHEMA_DEFAULTS_SNAPSHOT_PATH = PLUGIN_ROOT / "data" / "schema_defaults_snapshot.json"
+LEGACY_SCHEMA_DEFAULTS = {
+    "sr_text": ["Auto"],
+    "enable_etterna_rainbow_bars": [True],
+    "card_blur": ["Soft"],
+}
+
+
+def _load_schema_defaults() -> dict[str, object]:
+    try:
+        schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    defaults: dict[str, object] = {}
+    if isinstance(schema, dict):
+        for key, meta in schema.items():
+            if isinstance(meta, dict) and "default" in meta:
+                defaults[key] = meta["default"]
+    return defaults
+
+
+SCHEMA_DEFAULTS = _load_schema_defaults()
+
+
+def _load_previous_schema_defaults() -> dict[str, object]:
+    try:
+        data = json.loads(SCHEMA_DEFAULTS_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+PREVIOUS_SCHEMA_DEFAULTS = _load_previous_schema_defaults()
+
+
+def _save_schema_defaults_snapshot() -> None:
+    try:
+        SCHEMA_DEFAULTS_SNAPSHOT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        SCHEMA_DEFAULTS_SNAPSHOT_PATH.write_text(
+            json.dumps(SCHEMA_DEFAULTS, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    except Exception:
+        return
+
+
+def _schema_default(key: str, fallback: object) -> object:
+    return SCHEMA_DEFAULTS.get(key, fallback)
+
+
+def _config_value(
+    config: AstrBotConfig,
+    key: str,
+    fallback: object,
+) -> tuple[object, bool]:
+    schema_default = _schema_default(key, fallback)
+    if key not in config:
+        return schema_default, False
+
+    value = config.get(key, schema_default)
+    stale_defaults = []
+    if key in PREVIOUS_SCHEMA_DEFAULTS:
+        stale_defaults.append(PREVIOUS_SCHEMA_DEFAULTS[key])
+    stale_defaults.extend(LEGACY_SCHEMA_DEFAULTS.get(key, []))
+
+    if value != schema_default and any(value == stale for stale in stale_defaults):
+        config[key] = schema_default
+        return schema_default, True
+
+    return value, False
+
+
+def _save_config_if_migrated(config: AstrBotConfig, migrated: bool) -> None:
+    if not migrated or not hasattr(config, "save_config"):
+        return
+    try:
+        config.save_config()
+    except Exception:
+        return
 
 MODE_FLAG_TO_CONTENT_BAR = {
     "-n": "None",
@@ -41,7 +124,7 @@ HELP_TEXT = "\n".join(
         "基于 osumania_map_analyser 实现本项目，可以分析键型/SV，并预估对应rf/ln段位。",
         "",
         "用法",
-        "/ma <bid>      默认等同于 /ma -a <bid>",
+        "/ma <bid>      使用插件配置中的默认主体内容",
         "/ma -n <bid>   主体不显示任何内容，即短卡片模式",
         "/ma -a <bid>   主体内容按谱面 LN 占比自动选择 Pattern 或 Etterna",
         "/ma -p <bid>   主体显示键型分析，非4/6/7K 主体自动回退 Pattern",
@@ -56,9 +139,9 @@ HELP_TEXT = "\n".join(
 
 @register(
     "astrbot_plugin_osu_mania_map_analyser",
-    "xuan_yuan",
+    "ZHAO20060708",
     "Render osumania_map_analyser charts from beatmap id via Playwright.",
-    "0.1.4",
+    "0.1.5",
 )
 class ManiaMapAnalyserPlugin(Star):
     """AstrBot 插件入口"""
@@ -66,32 +149,40 @@ class ManiaMapAnalyserPlugin(Star):
     def __init__(self, context: Context, config: AstrBotConfig) -> None:
         super().__init__(context)
 
+        def cfg(key: str, fallback: object) -> object:
+            value, changed = _config_value(config, key, fallback)
+            nonlocal_config_migration["changed"] |= changed
+            return value
+
+        nonlocal_config_migration = {"changed": False}
         self.render_service = ManiaMapAnalyserService(
             plugin_root=PLUGIN_ROOT,
             render_config={
-                "capture_target": config.get("capture_target", "full_card"),
-                "content_bar": config.get("content_bar", "Auto"),
-                "sr_text": config.get("sr_text", "ReworkSR"),
-                "diff_text": config.get("diff_text", "Difficulty"),
-                "estimator_algorithm": config.get("estimator_algorithm", "Mixed"),
-                "etterna_version": config.get("etterna_version", "0.72.3"),
-                "companella_etterna_version": config.get("companella_etterna_version", "0.74.0"),
-                "enable_numeric_difficulty": config.get("enable_numeric_difficulty", True),
-                "enable_etterna_rainbow_bars": config.get("enable_etterna_rainbow_bars", False),
-                "show_mode_tag_capsule": config.get("show_mode_tag_capsule", True),
-                "vibro_detection": config.get("vibro_detection", True),
-                "debug_use_amount": config.get("debug_use_amount", False),
-                "debug_use_sv_detection": config.get("debug_use_sv_detection", True),
-                "azusa_sunny_reference_ho": config.get("azusa_sunny_reference_ho", True),
-                "card_opacity": config.get("card_opacity", "95%"),
-                "card_blur": config.get("card_blur", "4px"),
-                "card_radius": config.get("card_radius", "Medium"),
+                "capture_target": cfg("capture_target", "full_card"),
+                "content_bar": cfg("content_bar", "Auto"),
+                "sr_text": cfg("sr_text", "ReworkSR"),
+                "diff_text": cfg("diff_text", "Difficulty"),
+                "estimator_algorithm": cfg("estimator_algorithm", "Mixed"),
+                "etterna_version": cfg("etterna_version", "0.72.3"),
+                "companella_etterna_version": cfg("companella_etterna_version", "0.74.0"),
+                "enable_numeric_difficulty": cfg("enable_numeric_difficulty", True),
+                "enable_etterna_rainbow_bars": cfg("enable_etterna_rainbow_bars", False),
+                "show_mode_tag_capsule": cfg("show_mode_tag_capsule", True),
+                "vibro_detection": cfg("vibro_detection", True),
+                "debug_use_amount": cfg("debug_use_amount", False),
+                "debug_use_sv_detection": cfg("debug_use_sv_detection", True),
+                "azusa_sunny_reference_ho": cfg("azusa_sunny_reference_ho", True),
+                "card_opacity": cfg("card_opacity", "95%"),
+                "card_blur": cfg("card_blur", "4px"),
+                "card_radius": cfg("card_radius", "Medium"),
             },
         )
-        configured_max_concurrency = int(config.get("max_concurrency", 5))
+        configured_max_concurrency = int(cfg("max_concurrency", 5))
         self.max_concurrency = max(1, min(configured_max_concurrency, 5))
-        self.render_timeout_seconds = config.get("render_timeout_seconds", 120)
+        self.render_timeout_seconds = cfg("render_timeout_seconds", 120)
         self._render_semaphore = asyncio.Semaphore(self.max_concurrency)
+        _save_config_if_migrated(config, nonlocal_config_migration["changed"])
+        _save_schema_defaults_snapshot()
 
     @filter.event_message_type(filter.EventMessageType.ALL)
     async def render_map_analysis(self, event: AstrMessageEvent):
@@ -171,7 +262,7 @@ class ManiaMapAnalyserPlugin(Star):
         if normalized in {"help", "-h", "--help"}:
             return None, {}, {}
 
-        content_bar = "Graph" if graph_flag else "Auto"
+        content_bar = "Graph" if graph_flag else None
         remaining = normalized
 
         if not graph_flag:
@@ -197,7 +288,8 @@ class ManiaMapAnalyserPlugin(Star):
             raise ManiaMapAnalyserError("bid 格式无效，请输入谱面的数字 ID")
 
         runtime_overrides = self._build_runtime_overrides(mod_text)
-        return bid_text, {"contentBar": content_bar}, runtime_overrides
+        render_overrides = {"contentBar": content_bar} if content_bar else {}
+        return bid_text, render_overrides, runtime_overrides
 
     def _build_runtime_overrides(
         self,
