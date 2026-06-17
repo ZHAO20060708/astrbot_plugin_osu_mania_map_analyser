@@ -18,6 +18,12 @@ class _QuietStaticHandler(SimpleHTTPRequestHandler):
     def log_message(self, format: str, *args) -> None:  # noqa: A003
         return
 
+    def end_headers(self) -> None:
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+        self.send_header("Cross-Origin-Resource-Policy", "same-origin")
+        super().end_headers()
+
 
 class StaticFileServer:
     def __init__(self, root: Path) -> None:
@@ -138,6 +144,15 @@ class ChromiumRenderRuntime:
         request.output_path.parent.mkdir(parents=True, exist_ok=True)
         page = self._context.new_page()
         page.set_default_timeout(120000)
+        page_errors: list[str] = []
+        console_errors: list[str] = []
+        page.on("pageerror", lambda exc: page_errors.append(str(exc)))
+        page.on(
+            "console",
+            lambda message: console_errors.append(f"{message.type}: {message.text}")
+            if message.type in {"error", "warning"}
+            else None,
+        )
 
         try:
             payload_json = json.dumps(request.payload, ensure_ascii=False)
@@ -148,12 +163,17 @@ class ChromiumRenderRuntime:
             render_state = page.evaluate(
                 "() => ({"
                 "error: window.__MA_RENDER_ERROR || null,"
+                "errorStack: window.__MA_RENDER_ERROR_STACK || '',"
                 "statusText: window.__MA_RENDER_STATUS_TEXT || '',"
                 "statusKind: window.__MA_RENDER_STATUS_KIND || ''"
                 "})"
             )
             if render_state["error"]:
-                raise ManiaMapAnalyserError(str(render_state["error"]))
+                error_message = str(render_state["error"])
+                error_stack = self._trim_stack(render_state.get("errorStack"))
+                if error_stack:
+                    error_message = f"{error_message} | {error_stack}"
+                raise ManiaMapAnalyserError(error_message)
 
             selector = "#body-graph-wrap" if request.capture_target == "graph_only" else "#capture-surface"
             page.locator(selector).screenshot(
@@ -161,7 +181,8 @@ class ChromiumRenderRuntime:
                 animations="disabled",
             )
         except Exception as exc:
-            raise self._normalize_runtime_error(exc) from exc
+            diagnostics = self._build_page_diagnostics(page_errors, console_errors)
+            raise self._normalize_runtime_error(exc, diagnostics) from exc
         finally:
             page.close()
 
@@ -235,7 +256,37 @@ class ChromiumRenderRuntime:
             )
         return ManiaMapAnalyserError(f"启动 Chromium 失败：{message}")
 
-    def _normalize_runtime_error(self, exc: Exception) -> ManiaMapAnalyserError:
+    def _normalize_runtime_error(
+        self,
+        exc: Exception,
+        diagnostics: str = "",
+    ) -> ManiaMapAnalyserError:
         if isinstance(exc, ManiaMapAnalyserError):
+            if diagnostics:
+                return ManiaMapAnalyserError(f"{exc} | {diagnostics}")
             return exc
-        return ManiaMapAnalyserError(f"Playwright 渲染失败：{exc}")
+
+        message = f"Playwright 渲染失败：{exc}"
+        if diagnostics:
+            message = f"{message} | {diagnostics}"
+        return ManiaMapAnalyserError(message)
+
+    @staticmethod
+    def _trim_stack(stack_text: Any) -> str:
+        if not isinstance(stack_text, str):
+            return ""
+
+        lines = [line.strip() for line in stack_text.splitlines() if line.strip()]
+        if not lines:
+            return ""
+
+        return " <- ".join(lines[:3])
+
+    @staticmethod
+    def _build_page_diagnostics(page_errors: list[str], console_errors: list[str]) -> str:
+        chunks: list[str] = []
+        if page_errors:
+            chunks.append(f"pageerror={page_errors[0]}")
+        if console_errors:
+            chunks.append(f"console={console_errors[0]}")
+        return "; ".join(chunks)

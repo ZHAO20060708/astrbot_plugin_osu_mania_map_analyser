@@ -72,20 +72,14 @@ class ManiaMapAnalyserService:
             "postRenderDelayMs": 700,
         }
 
-        # 同步调用异步的 build_cover_theme
+        # generate_from_bid() 运行在 asyncio.to_thread 的工作线程里。
+        # Python 3.14 起，工作线程默认没有 current event loop，
+        # 这里直接用 asyncio.run() 执行一次性的异步封面主题构建。
         try:
-            loop = asyncio.get_event_loop()
-            if loop.is_running():
-                # 如果已经在事件循环中，创建新的事件循环
-                theme = asyncio.run(build_cover_theme(
-                    osu_text=osu_text,
-                    cache_dir=self.plugin_data_path / "cover-cache",
-                ))
-            else:
-                theme = loop.run_until_complete(build_cover_theme(
-                    osu_text=osu_text,
-                    cache_dir=self.plugin_data_path / "cover-cache",
-                ))
+            theme = asyncio.run(build_cover_theme(
+                osu_text=osu_text,
+                cache_dir=self.plugin_data_path / "cover-cache",
+            ))
         except Exception:
             theme = None
 

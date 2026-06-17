@@ -231,6 +231,7 @@ async function renderFromPayload() {
 
 window.__MA_RENDER_DONE = false;
 window.__MA_RENDER_ERROR = "";
+window.__MA_RENDER_ERROR_STACK = "";
 window.__MA_RENDER_STATUS_TEXT = "";
 window.__MA_RENDER_STATUS_KIND = "";
 
@@ -238,6 +239,7 @@ renderFromPayload().catch((error) => {
     const message = error instanceof Error ? error.message : String(error);
     setStatus(`Render bridge failed: ${message}`, "error");
     window.__MA_RENDER_ERROR = message;
+    window.__MA_RENDER_ERROR_STACK = error instanceof Error ? (error.stack || "") : "";
     window.__MA_RENDER_STATUS_TEXT = state.statusText || message;
     window.__MA_RENDER_STATUS_KIND = "error";
     window.__MA_RENDER_DONE = true;
