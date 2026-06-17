@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.7
+
+- Added plugin-local dependency bootstrap so startup now installs Python
+  packages into `data/runtime/site-packages` and Playwright Chromium into
+  `data/runtime/ms-playwright`, avoiding repeated manual installation after
+  AstrBot restarts.
+- Updated startup error messages to report automatic dependency/browser install
+  failures more accurately.
+- Updated plugin version metadata to `0.1.7`.
+
 ## 0.1.6
 
 - Unified the full-card body background into a single shared shell during

@@ -248,11 +248,11 @@ class ChromiumRenderRuntime:
         lowered = message.lower()
         if "no module named 'playwright'" in lowered:
             return ManiaMapAnalyserError(
-                "未安装 Playwright，请先执行 `pip install -r requirements.txt`"
+                "Playwright 运行时未就绪，插件自动安装依赖失败：" + message
             )
         if "executable doesn't exist" in lowered or "browsertype.launch" in lowered:
             return ManiaMapAnalyserError(
-                "未安装 Chromium 内核，请先执行 `playwright install chromium`"
+                "Chromium 内核未就绪，插件自动安装浏览器失败：" + message
             )
         return ManiaMapAnalyserError(f"启动 Chromium 失败：{message}")
 

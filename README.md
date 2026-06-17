@@ -10,28 +10,15 @@ AstrBot 插件版 `osumania_map_analyser`。机器人可通过 `/ma <bid>` 下�
 
 ## 安装
 
-首次使用前，除了安装 Python 依赖，还需要额外安装 Playwright 的 Chromium 内核。建议在 AstrBot 实际运行插件的同一 Python 环境中执行：
+插件启动时会自动把 Python 依赖安装到 `data/runtime/site-packages`，并把
+Playwright Chromium 安装到 `data/runtime/ms-playwright`。正常情况下不需要再手动执行
+`pip install -r requirements.txt` 或 `playwright install chromium`。
 
-```powershell
-python -m playwright install-deps chromium
-```
+首次启动或 `requirements.txt` 变更后，插件会触发一次自动安装，因此需要确保：
 
-验证，预期输出：`Chromium OK: ...`
-```powershell
-python - <<'PY'
-import asyncio
-from playwright.async_api import async_playwright
-
-async def main():
-    p = await async_playwright().start()
-    browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
-    print("Chromium OK:", browser.version)
-    await browser.close()
-    await p.stop()
-
-asyncio.run(main())
-PY
-```
+- AstrBot 运行账号对本插件目录有写权限
+- 服务器可以访问 PyPI 和 Playwright 浏览器下载源
+- Linux 主机已经具备 Chromium 所需系统库；若缺少系统依赖，仍需在系统层补齐
 
 ## 使用
 

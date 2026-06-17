@@ -15,6 +15,10 @@ PLUGIN_ROOT = Path(__file__).resolve().parent
 if str(PLUGIN_ROOT) not in sys.path:
     sys.path.insert(0, str(PLUGIN_ROOT))
 
+from astrbot_service.dependency_bootstrap import bootstrap_plugin_runtime
+
+bootstrap_plugin_runtime(PLUGIN_ROOT)
+
 from astrbot_service.service_mania_map_analyser import ManiaMapAnalyserService
 from astrbot_service.errors import ManiaMapAnalyserError
 
@@ -141,7 +145,7 @@ HELP_TEXT = "\n".join(
     "astrbot_plugin_osu_mania_map_analyser",
     "ZHAO20060708",
     "Render osumania_map_analyser charts from beatmap id via Playwright.",
-    "0.1.5",
+    "0.1.7",
 )
 class ManiaMapAnalyserPlugin(Star):
     """AstrBot 插件入口"""
