@@ -20,14 +20,14 @@
   "content_bar": {
     "description": "卡片主体内容",
     "type": "string",
-    "hint": "可选值：None、Auto、Pattern、Etterna、Graph。命令中可通过 /ma -n、-a、-p、-e、-g 覆盖；/ma <bid> 默认等同 /ma -a <bid>。",
+    "hint": "可选值：None、Auto、Pattern、Etterna、Graph、Full。命令中可通过 /ma -n、-a、-p、-e、-g 覆盖；/ma <bid> 默认等同 /ma -a <bid>。",
     "default": "Auto"
   },
   "sr_text": {
     "description": "左上角胶囊内容",
     "type": "string",
     "hint": "可选值：ReworkSR、MSD、Pattern、InterludeSR、Auto。",
-    "default": "Auto"
+    "default": "ReworkSR"
   },
   "diff_text": {
     "description": "右上角区域内容",
@@ -38,7 +38,7 @@
   "estimator_algorithm": {
     "description": "估算算法",
     "type": "string",
-    "hint": "可选值：Mixed、Azusa、Sunny、Daniel、Companella。",
+    "hint": "可选值：Azusa、Roxy、Mixed、Sunny、Daniel、Companella。",
     "default": "Mixed"
   },
   "etterna_version": {
@@ -63,7 +63,7 @@
     "description": "Etterna 彩虹条",
     "type": "bool",
     "hint": "主体内容为 Etterna 时是否启用彩虹条样式。",
-    "default": true
+    "default": false
   },
   "show_mode_tag_capsule": {
     "description": "显示模式标签胶囊",
@@ -104,8 +104,8 @@
   "card_blur": {
     "description": "卡片模糊强度",
     "type": "string",
-    "hint": "可选值：Off、Soft、Strong。",
-    "default": "Soft"
+    "hint": "可选值：Off、4px、8px、12px、16px、20px。",
+    "default": "4px"
   },
   "card_radius": {
     "description": "卡片圆角",

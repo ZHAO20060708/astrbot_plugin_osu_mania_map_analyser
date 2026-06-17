@@ -58,7 +58,7 @@ HELP_TEXT = "\n".join(
     "astrbot_plugin_osu_mania_map_analyser",
     "xuan_yuan",
     "Render osumania_map_analyser charts from beatmap id via Playwright.",
-    "0.1.3",
+    "0.1.4",
 )
 class ManiaMapAnalyserPlugin(Star):
     """AstrBot 插件入口"""
@@ -71,20 +71,20 @@ class ManiaMapAnalyserPlugin(Star):
             render_config={
                 "capture_target": config.get("capture_target", "full_card"),
                 "content_bar": config.get("content_bar", "Auto"),
-                "sr_text": config.get("sr_text", "Auto"),
+                "sr_text": config.get("sr_text", "ReworkSR"),
                 "diff_text": config.get("diff_text", "Difficulty"),
                 "estimator_algorithm": config.get("estimator_algorithm", "Mixed"),
                 "etterna_version": config.get("etterna_version", "0.72.3"),
                 "companella_etterna_version": config.get("companella_etterna_version", "0.74.0"),
                 "enable_numeric_difficulty": config.get("enable_numeric_difficulty", True),
-                "enable_etterna_rainbow_bars": config.get("enable_etterna_rainbow_bars", True),
+                "enable_etterna_rainbow_bars": config.get("enable_etterna_rainbow_bars", False),
                 "show_mode_tag_capsule": config.get("show_mode_tag_capsule", True),
                 "vibro_detection": config.get("vibro_detection", True),
                 "debug_use_amount": config.get("debug_use_amount", False),
                 "debug_use_sv_detection": config.get("debug_use_sv_detection", True),
                 "azusa_sunny_reference_ho": config.get("azusa_sunny_reference_ho", True),
                 "card_opacity": config.get("card_opacity", "95%"),
-                "card_blur": config.get("card_blur", "Soft"),
+                "card_blur": config.get("card_blur", "4px"),
                 "card_radius": config.get("card_radius", "Medium"),
             },
         )
