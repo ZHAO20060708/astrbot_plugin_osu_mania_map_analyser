@@ -11,7 +11,7 @@ import {
 import { setRecomputeHandler } from "../osumania_map_analyser/ManiaMapAnalyser by Leo_Black/js/app/scheduler.js";
 import {
     applyAzusaSunnyReferenceHoSetting,
-    applyCardBlurSetting,
+    applyCardBgBlurSetting,
     applyCardOpacitySetting,
     applyCardRadiusSetting,
     applyCompanellaEtternaVersionSetting,
@@ -143,7 +143,7 @@ function applyRenderSettings(settings) {
     applyUseSvDetectionSetting(settings.useSvDetection);
     applyAzusaSunnyReferenceHoSetting(settings.azusaSunnyReferenceHo);
     applyCardOpacitySetting(settings.cardOpacity);
-    applyCardBlurSetting(settings.cardBlur);
+    applyCardBgBlurSetting(settings.cardBlur);
     applyCardRadiusSetting(settings.cardRadius);
     applyPauseDetectionSetting(false);
     applyHideCardDuringPlaySetting(false);
