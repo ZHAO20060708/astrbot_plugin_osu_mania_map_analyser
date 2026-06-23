@@ -1,9 +1,16 @@
 # osumania_map_analyser
 **[English](README_EN.md) | 中文**
 ****
-本仓库是一个 [tosu](https://tosu.app) 游戏内叠加界面(ppcounter)，实时在 osu!mania（4/6/7K） 下，lazer与stable的多个mod，提供估算难度、分析RC/LN键型、自定义ett版本计算MSD、难度图表和暂停检测功能。
+本仓库是一个纯AI打造的 [tosu](https://tosu.app) 游戏内叠加界面(ppcounter)，实时在 osu!mania（4/6/7K/Lazer/Stable）及其各种mod下，提供估算难度、分析RC/LN键型、自定义ett版本计算MSD、难度图表和暂停检测功能。
 
 ![Features](img/features.gif)
+
+<details>
+<summary>更新: 新主题效果图</summary>
+<img src="img/themeLN.jpg" alt="LN" width="400">
+<img src="img/themeRC.jpg" alt="RC" width="400">
+<img src="img/full.jpg" alt="Full" width="400">
+</details>
 
 ## 主要特性
 - **实时分析**：在游戏/选图过程中实时分析当前谱面的各项数据。
@@ -30,23 +37,23 @@
 
 ## 注意事项
 1. 插件需要在 tosu 的 `static` 目录下运行，注意不要嵌套文件夹，确保正确放置。
-2. 由于 tosu 不支持中文设置项标题，为求统一性，所有内容均使用英文。
+2. 由于 tosu 不支持中文设置选项，为求统一性，其余所有内容均使用英文。
 3. 本插件依赖于谱面数据的正确解析，某些特殊或非标准的谱面可能会导致分析结果不准确。
-4. 暂停检测功能增加了阈值机制（默认500ms），可在设置中调整。如果游戏卡顿导致误判，可适当提高阈值。
-5. SV检测功能处于实验阶段，可能会有较高的误判率，请谨慎使用。
-6. 难度估计算法虽然经过调整，但仍然可能存在不准确的情况，请仅将其作为参考。对于4K，一般情况下高难相对比较准确，整体误差不超过半个段位，低难相对没那么准确；在Minijack、Stamina和Anchor等键型中，估计结果可能会有较大的偏差。对于6K和7K，整体表现相对一般。建议玩家结合自己的实际游玩体验进行判断，不要过于依赖估计结果。
-7. 该插件的性能可能会受到谱面复杂度和所选功能的影响，在某些情况下可能会出现卡顿或延迟的情况，请根据实际情况调整设置以获得更好的体验。
-8. 如果存在问题欢迎提交issue。
+4. 如果游戏卡顿导致误判，可适当提高暂停检测阈值。
+5. 难度估计算法虽然经过调整，但仍然可能存在不准确的情况，请仅将其作为参考。对于4K，一般情况下高难相对比较准确，整体误差不超过半个段位，低难相对没那么准确；在Minijack、Stamina和Anchor等键型中，估计结果可能会有较大的偏差。对于6K和7K，整体表现相对一般。建议玩家结合自己的实际游玩体验进行判断，不要过于依赖估计结果。
+6. 该插件的性能可能会受到谱面复杂度和所选功能的影响，在某些情况下可能会出现卡顿或延迟的情况，请根据实际情况调整设置以获得更好的体验。
+7. 如果存在问题欢迎提交issue。
 
 ## 设置说明
 注意：推荐直接使用默认设置开始体验，之后再根据个人喜好进行调整。
-- **视觉设定**：
+- **模块设定**：
     - **Card Body Content**：选择在卡片主体显示的内容。
         - None: 不显示任何内容。即短卡片模式。
         - Auto: 根据谱面LN占比自动选择显示Pattern或Etterna。
         - Pattern: 显示键型分析。
         - Etterna: 显示Etterna 7大键型分。
         - Graph: 显示难度变化图。
+        - Full: 显示完整内容，包括键型分析、难度图表和Etterna分数。不推荐日常使用，可能会比较拥挤。
         - 注：对于非4/6/7K谱面，主体内容将自动回退为Pattern显示。
     - **Top-left Capsule Text**：选择在卡片左上角胶囊显示的内容。
         - Auto: 根据谱面LN占比自动选择显示ReworkSR或MSD。
@@ -65,21 +72,33 @@
     - **Map Tag Capsule**: 是否显示谱面标签胶囊。
         - 包含HB/RC/LN/Mix/SV标签。
         - 根据谱面特征自动判断。
+- **主题与效果**：
+    - **osu!Lazer Card Theme**: 是否启用Lazer风格的卡片主题。
+        - 启用后将使用类似于osu!lazer的卡片设计风格，并启用部分仅在Lazer主题下可用的设置项。
+    - **osu! Font**: 是否仅在卡片内使用内置 Torus 字体。
+    - **Floating Triangles Animation**: 是否启用卡片背景的浮动三角形动画效果。
+        - 该选项仅在启用Lazer Card Theme时生效。
+    - **Cover Art Background**: 是否将谱面背景图作为卡片背景。
+        - 该选项仅在启用Lazer Card Theme时生效。
+        - 启用后卡片颜色主题将从谱面背景图中提取，增强视觉效果；禁用后将使用纯色背景，建议配合Custom Background Color设置使用。
+    - **Custom Background Color**: 设置卡片的自定义背景颜色。
+        - 该选项仅在启用Lazer Card Theme时生效。
+        - 当使用谱面背景图作为卡片背景时，也可以通过该选项设置一个自定义颜色。
+        - 设置为纯黑色（#000000）将禁用该功能并从谱面背景采样颜色或使用深黑色背景色。
+    - **Rainbow Bars**: 是否启用Etterna下的彩虹条
+        - 建议在启用Lazer Card Theme时禁用该选项，以获得更统一的视觉效果。
     - **Metadata Marquee**: 是否启用滚动显示谱面信息功能。
-    - **Rainbow Bars**: 是否启用Etterna下的彩虹条。
     - **Numeric Difficulty**: 是否显示数值化难度。
         - 将在RC估计算法下于ESTIMATE DIFFICULTY字样后显示数值化难度。
     - **Hide During Play**: 是否在游玩过程中隐藏卡片。
-    - **Card Opacity**: 设置卡片整体透明度。
-        - 可选范围：100% / 95% / 90% / 80% / 70%。
-    - **Card Blur**: 设置卡片背景模糊强度。
-        - Off: 关闭模糊效果。
-        - Soft: 轻度模糊（默认）。
-        - Strong: 强模糊效果。
-    - **Card Radius**: 设置卡片圆角大小。
-        - Small / Medium / Large。
     - **Reverse Card Extension**: 是否反转卡片延展方向。
         - 启用后卡片底边保持锚定，扩展时向上生长；关闭时默认向下扩展。
+    - **Card Opacity**: 设置卡片整体透明度。
+        - 可选范围：100% / 95% / 90% / 80% / 70%。
+    - **Content Background Blur**: 是否启用背景图片模糊效果。
+         - 启用后卡片内容区域的背景将会有模糊效果，增强内容的可读性和视觉层次感。
+    - **Card Radius**: 设置卡片圆角大小。
+        - Small / Medium / Large。
 - **功能性设置**：
     - **Pause Detection**: 是否启用暂停检测功能。
         - 推荐启用：启用后将在难度图表上显示暂停位置，并在卡片右下角显示暂停次数。
@@ -92,9 +111,13 @@
     - **SV Detection**: 是否启用SV谱面检测功能。
         - 启用后当检测到变速时，将在左下角显示SV标签。
         - 注意：如果未开启显示谱面标签胶囊，SV标签将不会显示。
+    - **Pause Detection Threshold**: 设置暂停检测的时间阈值（毫秒）。
+        - 只有当游戏时间冻结超过该时长后，才会被判定为一次暂停。
+        - 默认值为500ms。如果游戏卡顿导致误判，可适当提高该值。
     - **Estimator Algorithm**: 选择用于难度估计的算法。
         - Mixed: (推荐)综合下方四个算法的混合算法，准确度相对较高。自动选择适配当前谱面的算法。
         - Azusa: 面向4K RC的融合算法，综合了下方算法并进行了针对调整，在RC场景下表现较好，但不适用于LN主体的谱面。
+        - Roxy: 面向4K RC的元结构估算器。使用结构分析对谱面进行建模，再通过GBDT元模型融合Azusa/Sunny/Daniel的参考预测。
         - Suuny: 使用Suuny Rework直接映射段位星数，适配4/6/7K的LN与RC段位。
         - [Daniel](https://thebagelofman.github.io/Daniel/): 使用Daniel算法进行估计，适配4K Reform Alpha及以上段位难度。
         - [Companella](https://github.com/Leinadix/companella): 使用Companella算法进行估计，适用于4K Reform Delta+及以下段位难度。
@@ -120,9 +143,10 @@
     - **Azusa Sunny Reference Force HO**
         - 启用后将强制Azusa算法将谱面视为纯米。
         - 默认启用，请不要随意关闭。
-    - **Pause Detection Threshold**: 设置暂停检测的时间阈值（毫秒）。
-        - 只有当游戏时间冻结超过该时长后，才会被判定为一次暂停。
-        - 默认值为500ms。如果游戏卡顿导致误判，可适当提高该值。
+
+## Roxy 算法说明
+Roxy 是一个 4K RC 元结构估算器。其核心分为两层：第一层对谱面进行 7 个方面结构分析，产出结构化数值难度；第二层通过 GBDT（梯度提升决策树）元模型融合 Azusa/Sunny/Daniel 的参考预测值，输出最终难度。
+请注意，由于使用了树模型进行决策，GBDT 元模型可能会存在边界不连续的情况：输入特征的微小变化（例如倍速相差0.01）可能会跨过决策树的分割阈值，导致输出难度出现不成比例的大跳跃。用户在使用时应当注意到这是树模型固有的特性。
 
 ## Azusa 算法说明
 该算法在谱面本身的基础上，融合了Daniel和Suuny Rework的结果，并针对4K RC谱面进行了特定的调整。如有需要，请前往[此处](azusa_algorithm.md)(英文)查看详细说明。
@@ -138,3 +162,7 @@
 ## 特别感谢
 - [inuiyumegan](https://github.com/inuiyumegan): 提供了大量谱面数据用于算法调试和Benchmark。
 - [greycsont](https://github.com/greycsont): 提供了部分功能。
+- [ZHAO20060708](https://github.com/ZHAO20060708): 提供了精美的Lazer主题和Full模式。
+
+---------
+![:maniamapanalyser](https://count.getloli.com/@:maniamapanalyser?name=%3Amaniamapanalyser&theme=rule34&padding=7&offset=0&align=center&scale=1&pixelated=1&darkmode=auto)

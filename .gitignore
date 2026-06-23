@@ -4,3 +4,4 @@ service/__pycache__/
 .idea
 .venv/
 venv/
+.reasonix/

@@ -1,6 +1,7 @@
 import { runSunnyEstimatorFromText } from "../estimator/sunnyEstimator.js";
 import { runDanielEstimatorFromText } from "../estimator/danielEstimator.js";
 import { runAzusaEstimatorFromText } from "../estimator/azusaEstimator.js";
+import { runRoxyEstimatorFromText } from "../estimator/roxyEstimator.js";
 import {
     applyCompanellaToMixedResult,
     runMixedEstimatorFromText,
@@ -9,6 +10,7 @@ import { classifyCompanellaDifficulty } from "../estimator/companellaEstimator.j
 import { calculateInterludeStar } from "../interlude/index.js";
 import { analyzePatternFromText } from "../patterns/service.js";
 import { OsuFileParser } from "../parser/osuFileParser.js";
+import { runInWorker } from "./worker/manager.js";
 import {
     analyzeEtternaFromText,
     DEFAULT_SCORE_GOAL as ETT_DEFAULT_SCORE_GOAL,
@@ -18,6 +20,7 @@ import {
     ettSkillBarsEl,
     getEndpoint,
     getActiveContentBar,
+    contentBarShows,
     GRAPH_SUPPORTED_KEY_SET,
     mainCardEl,
     patternClustersEl,
@@ -36,11 +39,13 @@ import {
     renderEtternaSkillBars,
     renderPatternClusters,
     renderRightCapsule,
+    playStarBlockEntrance,
     setEstimateDifficultyText,
     showCategoryValue,
     showInterludeValue,
     showMsdValue,
     showNumericStarValue,
+    renderFullModeSeparators,
 } from "./display.js";
 import { modeTagFromLnRatio } from "./modeLogic.js";
 import {
@@ -67,7 +72,7 @@ import {
     setEffectiveContentBarForMap,
 } from "./settings.js";
 import { scheduleRecompute } from "./scheduler.js";
-import { detectVibro, detectVibroFromLongjackPattern } from "./vibro.js";
+import { detectVibro } from "./vibro.js";
 
 function parseMetadataFromBeatmap(osuText) {
     const parser = new OsuFileParser(osuText);
@@ -191,7 +196,7 @@ function shouldShowBodySkeletonDuringExpand(previousCardHeight, activeContentBar
         return false;
     }
 
-    if (activeContentBar !== "Pattern" && activeContentBar !== "Etterna") {
+    if (activeContentBar !== "Pattern" && activeContentBar !== "Etterna" && activeContentBar !== "Full") {
         return false;
     }
 
@@ -221,7 +226,7 @@ export function resetReworkDisplay() {
     clearDiffGraph();
     clearAllPauseMarkers();
     setEffectiveContentBarForMap(null);
-    if (state.diffText === "Graph" || getActiveContentBar() === "Graph") {
+    if (state.diffText === "Graph" || contentBarShows("Graph")) {
         showDiffGraphError("Graph unavailable");
     }
     reworkMetaEl.innerHTML = "LN%: -<br/>Keys: -";
@@ -242,12 +247,30 @@ export async function fetchBeatmapFile(reason) {
     const isStaleRequest = () => requestSeq !== state.analysisRequestSeq;
     const previousCardHeight = mainCardEl ? (Number(mainCardEl.getBoundingClientRect().height) || 0) : 0;
 
+    // 取出 socket 层判定的本次变化类型并清空，避免之后纯改设置的 recompute
+    // 误用上一次换歌的入场动画。换歌没拿到种类时（如初次加载）按换歌处理，
+    // 其余无种类的重算（改设置等）按换难度的轻量过渡处理。
+    let changeKind = state.pendingChangeKind;
+    if (!changeKind) {
+        changeKind = reason === "initial load" ? "song" : "difficulty";
+    }
+    state.pendingChangeKind = "";
+    state.activeChangeKind = changeKind;
+    let starBlockEntrancePlayed = false;
+    const playStarBlockEntranceOnce = () => {
+        if (starBlockEntrancePlayed) {
+            return;
+        }
+        starBlockEntrancePlayed = true;
+        playStarBlockEntrance(state.activeChangeKind);
+    };
+
     setStatus(`Loading beatmap file (${reason})...`, "loading");
     hideOverlay();
 
-    if (state.diffText === "Graph" || getActiveContentBar() === "Graph") {
+    if (state.diffText === "Graph" || contentBarShows("Graph")) {
         setGraphLoading(true);
-    } else if (!(state.diffText === "Graph" || getActiveContentBar() === "Graph")) {
+    } else {
         clearDiffGraph();
     }
 
@@ -270,11 +293,17 @@ export async function fetchBeatmapFile(reason) {
 
         const parsedInfo = parseMetadataFromBeatmap(rawText);
         const parsedKeycount = Number(parsedInfo.columnCount) || 0;
+        // In Full mode the graph block shows its own "Unsupported Keys" notice,
+        // so don't collapse the whole body to Pattern on unsupported keycounts.
         const shouldFallbackBodyToPattern = parsedKeycount > 0
             && !GRAPH_SUPPORTED_KEY_SET.has(parsedKeycount)
-            && state.contentBar !== "None";
+            && state.contentBar !== "None"
+            && state.contentBar !== "Full";
         setEffectiveContentBarForMap(shouldFallbackBodyToPattern ? "Pattern" : null);
         const activeContentBar = getActiveContentBar();
+        const showsPattern = contentBarShows("Pattern");
+        const showsEtterna = contentBarShows("Etterna");
+        const showsGraph = contentBarShows("Graph");
 
         const shouldDelayBodyRender = shouldShowBodySkeletonDuringExpand(previousCardHeight, activeContentBar);
         let bodyRenderDelayPromise = null;
@@ -316,7 +345,7 @@ export async function fetchBeatmapFile(reason) {
             || estimatorAlgorithm === "Mixed";
 
         const needVibroDetection = state.vibroDetection;
-        const needPatternAnalysis = activeContentBar === "Pattern"
+        const needPatternAnalysis = showsPattern
             || state.srText === "Pattern"
             || state.diffText === "Pattern"
             || state.useSvDetection
@@ -326,11 +355,11 @@ export async function fetchBeatmapFile(reason) {
         const needInterludeValue = state.srText === "InterludeSR"
             || state.diffText === "InterludeSR"
             || estimatorNeedsCompanellaData;
-        const needEtternaAnalysis = activeContentBar === "Etterna"
+        const needEtternaAnalysis = showsEtterna
             || needMsdValue
             || needVibroDetection
             || estimatorNeedsCompanellaData;
-        const shouldReportEtternaError = activeContentBar === "Etterna"
+        const shouldReportEtternaError = showsEtterna
             || needMsdValue
             || estimatorNeedsCompanellaData;
 
@@ -339,7 +368,7 @@ export async function fetchBeatmapFile(reason) {
                 speedRate: state.speedRate,
                 odFlag: state.odFlag,
                 cvtFlag: state.cvtFlag,
-                withGraph: state.diffText === "Graph" || activeContentBar === "Graph",
+                withGraph: state.diffText === "Graph" || showsGraph,
             };
 
             const azusaOptions = {
@@ -359,12 +388,26 @@ export async function fetchBeatmapFile(reason) {
                 && typeof result.estDiff === "string";
 
             if (estimatorAlgorithm === "Daniel") {
-                selectedRework = runDanielEstimatorFromText(rawText, estimatorOptions);
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm });
+                selectedRework = wp ? await wp : runDanielEstimatorFromText(rawText, estimatorOptions);
                 nextEstDiff = selectedRework.estDiff;
                 nextNumericDifficulty = selectedRework.numericDifficulty;
                 nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
             } else if (estimatorAlgorithm === "Azusa") {
-                selectedRework = runAzusaEstimatorFromText(rawText, azusaOptions);
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm, forceSunnyReferenceHo: state.azusaSunnyReferenceHo });
+                selectedRework = wp ? await wp : runAzusaEstimatorFromText(rawText, azusaOptions);
+                actualEstimatorAlgorithm = selectedRework?.actualEstimatorAlgorithm || actualEstimatorAlgorithm;
+                if (!isValidEstimatorResult(selectedRework)) {
+                    selectedRework = runSunnyEstimatorFromText(rawText, estimatorOptions);
+                    actualEstimatorAlgorithm = "Sunny";
+                }
+                nextEstDiff = selectedRework.estDiff;
+                nextNumericDifficulty = selectedRework.numericDifficulty;
+                nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
+            } else if (estimatorAlgorithm === "Roxy") {
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm });
+                selectedRework = wp ? await wp : runRoxyEstimatorFromText(rawText, estimatorOptions);
+                actualEstimatorAlgorithm = selectedRework?.actualEstimatorAlgorithm || actualEstimatorAlgorithm;
                 if (!isValidEstimatorResult(selectedRework)) {
                     selectedRework = runSunnyEstimatorFromText(rawText, estimatorOptions);
                     actualEstimatorAlgorithm = "Sunny";
@@ -385,7 +428,8 @@ export async function fetchBeatmapFile(reason) {
                 nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
                 pendingMixedCompanellaContext = selectedRework.mixedCompanellaPlan || null;
             } else {
-                selectedRework = runSunnyEstimatorFromText(rawText, estimatorOptions);
+                const wp = runInWorker(rawText, { ...estimatorOptions, estimatorAlgorithm: "Sunny" });
+                selectedRework = wp ? await wp : runSunnyEstimatorFromText(rawText, estimatorOptions);
                 nextEstDiff = selectedRework.estDiff;
                 nextNumericDifficulty = selectedRework.numericDifficulty;
                 nextNumericDifficultyHint = selectedRework.numericDifficultyHint;
@@ -395,13 +439,16 @@ export async function fetchBeatmapFile(reason) {
             state.actualEstimatorAlgorithm = actualEstimatorAlgorithm;
             if (isStaleRequest()) return;
 
+            // 拿到结果、即将首次写入 star 区块时再触发入场动画，
+            // 与数值/难度名/图表的刷新同帧，换歌才整块入场，换难度只做轻量过渡。
+            playStarBlockEntranceOnce();
             showNumericStarValue(rework.star);
             resolvedEstDiff = nextEstDiff;
             resolvedNumericDifficulty = nextNumericDifficulty;
             resolvedNumericDifficultyHint = nextNumericDifficultyHint;
             updateDiffTextVisibility();
 
-            if (state.diffText === "Graph" || activeContentBar === "Graph") {
+            if (state.diffText === "Graph" || showsGraph) {
                 if (!GRAPH_SUPPORTED_KEY_SET.has(rework.columnCount)) {
                     showDiffGraphError("Unsupported Keys");
                 } else {
@@ -420,7 +467,7 @@ export async function fetchBeatmapFile(reason) {
             reworkMetaEl.classList.remove("loading");
         } catch (error) {
             resetReworkDisplay();
-            if (state.diffText === "Graph" || activeContentBar === "Graph") {
+            if (state.diffText === "Graph" || showsGraph) {
                 showDiffGraphError("Graph unavailable");
             }
             errors.push(`Rework failed: ${error.message}`);
@@ -454,12 +501,12 @@ export async function fetchBeatmapFile(reason) {
                     }
                 }
 
-                if (activeContentBar === "Pattern") {
+                if (showsPattern) {
                     if (!(await waitForBodyRenderReady())) return;
                     renderPatternClusters(mergedClusters);
                 }
             } catch (error) {
-                if (activeContentBar === "Pattern") {
+                if (showsPattern) {
                     if (!(await waitForBodyRenderReady())) return;
                     renderBodySectionError("Pattern", error.message);
                 }
@@ -481,24 +528,22 @@ export async function fetchBeatmapFile(reason) {
                 const vibroEligible = Number.isFinite(reworkStarValue) && reworkStarValue > 5.0;
                 isVibroMap = state.vibroDetection
                     && vibroEligible
-                    && (
-                        detectVibro(ettResult?.values, VIBRO_JACKSPEED_RATIO_THRESHOLD)
-                        || detectVibroFromLongjackPattern(patternReport, PATTERNS_CONFIG.LONGJACK_VIBRO_RATIO_THRESHOLD, PATTERNS_CONFIG.LONGJACK_VIBRO_MIN_BPM)
-                    );
+                    && detectVibro(ettResult?.values, VIBRO_JACKSPEED_RATIO_THRESHOLD);
 
-                if (activeContentBar === "Etterna") {
+                if (showsEtterna) {
                     if (!(await waitForBodyRenderReady())) return;
                     const columnCount = Number(rework?.columnCount) || Number(parsedInfo.columnCount) || 0;
                     renderEtternaSkillBars(ettResult?.values || {}, columnCount);
                 }
             } catch (error) {
-                if (activeContentBar === "Etterna") {
+                const isKeycountError = /unsupported keycount/i.test(String(error?.message ?? ""));
+                if (showsEtterna) {
                     if (!(await waitForBodyRenderReady())) return;
-                    renderBodySectionError("Etterna", error.message);
+                    renderBodySectionError("Etterna", isKeycountError ? "Unsupported Keycount" : error.message);
                     state.etternaTechnicalHidden = false;
                     mainCardEl.classList.remove("bars-etterna-compact");
                 }
-                if (shouldReportEtternaError) {
+                if (shouldReportEtternaError && !isKeycountError) {
                     errors.push(`Etterna analyze failed: ${error.message}`);
                 }
             }
@@ -564,9 +609,10 @@ export async function fetchBeatmapFile(reason) {
                 }
             }
 
-            const diffText = GRAPH_SUPPORTED_KEY_SET.has(rework.columnCount)
-                ? formatDiffForDisplay(resolvedEstDiff)
-                : "Unsupported Keys";
+            const rawDiffText = formatDiffForDisplay(resolvedEstDiff);
+            const diffText = (Number.isFinite(resolvedNumericDifficulty) && resolvedNumericDifficulty >= 18.5)
+                ? "> Cloverwisp Theta high"
+                : rawDiffText;
             setEstimateDifficultyText(diffText);
         }
 
@@ -590,7 +636,11 @@ export async function fetchBeatmapFile(reason) {
         setSvTagVisible(shouldShowSvTag);
 
         if (rework) {
-            setNumericDifficultyValue(resolvedNumericDifficulty, resolvedNumericDifficultyHint);
+            const cappedDiff = Number.isFinite(resolvedNumericDifficulty) && resolvedNumericDifficulty >= 18.5
+                ? null
+                : resolvedNumericDifficulty;
+            const cappedHint = cappedDiff === null ? "N/A" : resolvedNumericDifficultyHint;
+            setNumericDifficultyValue(cappedDiff, cappedHint);
         }
 
         setForceHideNumericDifficulty(isVibroMap);
@@ -601,12 +651,12 @@ export async function fetchBeatmapFile(reason) {
             const profileChanged = refreshAutoDisplayProfile(resolvedModeTag);
 
             const missingEtterna = (
-                activeContentBar === "Etterna"
+                showsEtterna
                 || state.srText === "MSD"
                 || state.diffText === "MSD"
             ) && !needEtternaAnalysis;
             const missingPattern = (
-                activeContentBar === "Pattern"
+                showsPattern
                 || state.srText === "Pattern"
                 || state.diffText === "Pattern"
                 || state.useSvDetection
@@ -659,6 +709,9 @@ export async function fetchBeatmapFile(reason) {
             Number(interludeStar),
         );
 
+        const overallValue = Number(ettResult?.values?.Overall);
+        renderFullModeSeparators(overallValue);
+
         if (isVibroMap && state.diffText === "Difficulty") {
             setEstimateDifficultyText("VIBRO");
         }
@@ -683,10 +736,10 @@ export async function fetchBeatmapFile(reason) {
         if (isStaleRequest()) return;
         setStatus(`Failed to load beatmap file: ${error.message}`, "error");
         resetReworkDisplay();
-        patternClustersEl.innerHTML = getActiveContentBar() === "Pattern"
+        patternClustersEl.innerHTML = contentBarShows("Pattern")
             ? "<li class=\"cluster-item empty\">No data</li>"
             : "";
-        ettSkillBarsEl.innerHTML = getActiveContentBar() === "Etterna"
+        ettSkillBarsEl.innerHTML = contentBarShows("Etterna")
             ? "<li class=\"ett-skill-item empty\">No data</li>"
             : "";
         showOverlay({
