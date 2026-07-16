@@ -9,21 +9,29 @@ from pathlib import Path
 import astrbot.api.message_components as Comp
 from astrbot.api import AstrBotConfig, logger
 from astrbot.api.event import AstrMessageEvent, filter
-from astrbot.api.star import Context, Star, register
+from astrbot.api.star import Context, Star
+from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 
 PLUGIN_ROOT = Path(__file__).resolve().parent
+PLUGIN_DATA_ROOT = (
+    Path(get_astrbot_data_path())
+    / "plugin_data"
+    / "astrbot_plugin_osu_mania_map_analyser"
+)
 if str(PLUGIN_ROOT) not in sys.path:
     sys.path.insert(0, str(PLUGIN_ROOT))
 
-from astrbot_service.dependency_bootstrap import bootstrap_plugin_runtime
+from astrbot_service.dependency_bootstrap import bootstrap_plugin_runtime  # noqa: E402
 
-bootstrap_plugin_runtime(PLUGIN_ROOT)
+bootstrap_plugin_runtime(PLUGIN_ROOT, PLUGIN_DATA_ROOT)
 
-from astrbot_service.service_mania_map_analyser import ManiaMapAnalyserService
-from astrbot_service.errors import ManiaMapAnalyserError
+from astrbot_service.errors import ManiaMapAnalyserError  # noqa: E402
+from astrbot_service.service_mania_map_analyser import (  # noqa: E402
+    ManiaMapAnalyserService,
+)
 
 SCHEMA_PATH = PLUGIN_ROOT / "_conf_schema.json"
-SCHEMA_DEFAULTS_SNAPSHOT_PATH = PLUGIN_ROOT / "data" / "schema_defaults_snapshot.json"
+SCHEMA_DEFAULTS_SNAPSHOT_PATH = PLUGIN_DATA_ROOT / "schema_defaults_snapshot.json"
 LEGACY_SCHEMA_DEFAULTS = {
     "sr_text": ["Auto"],
     "enable_etterna_rainbow_bars": [True],
@@ -141,12 +149,6 @@ HELP_TEXT = "\n".join(
 )
 
 
-@register(
-    "astrbot_plugin_osu_mania_map_analyser",
-    "ZHAO20060708",
-    "Render osumania_map_analyser charts from beatmap id via Playwright.",
-    "0.1.7",
-)
 class ManiaMapAnalyserPlugin(Star):
     """AstrBot 插件入口"""
 
@@ -161,6 +163,7 @@ class ManiaMapAnalyserPlugin(Star):
         nonlocal_config_migration = {"changed": False}
         self.render_service = ManiaMapAnalyserService(
             plugin_root=PLUGIN_ROOT,
+            plugin_data_path=PLUGIN_DATA_ROOT,
             render_config={
                 "capture_target": cfg("capture_target", "full_card"),
                 "content_bar": cfg("content_bar", "Auto"),
@@ -187,6 +190,10 @@ class ManiaMapAnalyserPlugin(Star):
         self._render_semaphore = asyncio.Semaphore(self.max_concurrency)
         _save_config_if_migrated(config, nonlocal_config_migration["changed"])
         _save_schema_defaults_snapshot()
+
+    async def terminate(self) -> None:
+        """Release Chromium and the local static server during plugin reload."""
+        self.render_service.close()
 
     @filter.event_message_type(filter.EventMessageType.ALL)
     async def render_map_analysis(self, event: AstrMessageEvent):

@@ -15,13 +15,20 @@ from .errors import ManiaMapAnalyserError, NonManiaBeatmapError
 class ManiaMapAnalyserService:
     """把 beatmap 下载、缓存和 Playwright 渲染隔离在 service 层"""
 
-    def __init__(self, plugin_root: Path, render_config: dict[str, Any]) -> None:
+    def __init__(
+        self,
+        plugin_root: Path,
+        plugin_data_path: Path,
+        render_config: dict[str, Any],
+    ) -> None:
         self.plugin_root = plugin_root
-        # 使用 plugin_root 的 data 子目录作为数据存储目录
-        self.plugin_data_path = plugin_root / "data"
+        self.plugin_data_path = plugin_data_path
         self.plugin_data_path.mkdir(parents=True, exist_ok=True)
         self.render_settings = self._normalize_render_settings(render_config)
         self.runtime = ChromiumRenderRuntime(static_root=self.plugin_root)
+
+    def close(self) -> None:
+        self.runtime.close()
 
     def generate_from_bid(
         self,

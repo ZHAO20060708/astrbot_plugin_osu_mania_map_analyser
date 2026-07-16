@@ -331,10 +331,10 @@ def _extract_accent(rgb_image, image_module) -> str | None:
         if base + 2 >= len(palette):
             continue
         r, g, b = palette[base], palette[base + 1], palette[base + 2]
-        h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+        h, lightness, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
         freq = count / total
         # 偏好：够鲜艳 + 亮度适中（不要纯黑纯白）+ 占比别太小
-        brightness_fit = 1.0 - abs(l - 0.55) * 1.4
+        brightness_fit = 1.0 - abs(lightness - 0.55) * 1.4
         brightness_fit = max(brightness_fit, 0.05)
         score = (freq ** 0.5) * (0.25 + s * 1.35) * brightness_fit
         if score > best_score:
@@ -349,18 +349,18 @@ def _extract_accent(rgb_image, image_module) -> str | None:
 
 def _normalize_accent(r: int, g: int, b: int) -> str:
     """把主色压进一个「好看且可读」的区间，避免太暗/太灰/太刺眼。"""
-    h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+    h, lightness, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
 
     if s < 0.15:
         # 近乎灰度的封面：给一点点饱和，让主题呈现「带色调的石板蓝/灰」而非死灰，
         # 但仍贴着封面里本就存在的色相，不凭空造色
         s = max(s, 0.18)
-        l = min(max(l, 0.43), 0.56)
+        lightness = min(max(lightness, 0.43), 0.56)
     else:
         s = min(max(s, 0.5), 0.9)
-        l = min(max(l, 0.46), 0.62)
+        lightness = min(max(lightness, 0.46), 0.62)
 
-    nr, ng, nb = colorsys.hls_to_rgb(h, l, s)
+    nr, ng, nb = colorsys.hls_to_rgb(h, lightness, s)
     return "#{:02x}{:02x}{:02x}".format(
         round(nr * 255), round(ng * 255), round(nb * 255)
     )

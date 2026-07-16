@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.8
+
+- Synced the embedded analyser with the latest upstream Roxy and rendering fixes.
+- Moved browser runtime, caches, outputs, and schema snapshots to AstrBot's
+  `data/plugin_data/astrbot_plugin_osu_mania_map_analyser/` directory.
+- Fixed Playwright Chromium detection for the `chrome-headless-shell` executable.
+- Reused AstrBot-managed Python dependencies instead of reinstalling them into a
+  private directory on every requirements change.
+- Added plugin shutdown cleanup for the persistent Chromium worker and local
+  static server.
+- Updated plugin metadata and documentation.
+
 ## 0.1.7
 
 - Added plugin-local dependency bootstrap so startup now installs Python

@@ -38,7 +38,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 ,Kimi to bokueno sousouka,speed,Unsigned,14.8,15.01,-0.21,0.21
 ,Shuu no hazama,tech,stream tech,14.7,14.74,-0.04,0.04
 ,Paradigm Shift(e8v2) x1.15,speed,low stream,14.7,14.92,-0.22,0.22
-,Ash Statues(rachel),stamina,dense jumpstream,14.6,14.79,-0.19,0.19
+,Ash Statues(rachel),stamina,dense jumpstream,14.6,15.53,-0.93,0.93
 ,CRIMSON FIGHTER x1.15,stamina,dense handstream,14.6,14.84,-0.24,0.24
 ,Amatsukami x1.15,speed,high stream,14.6,14.97,-0.37,0.37
 ,Lalala.Refrain(sp7v2) x1.1,speed,mid stream,14.6,14.59,0.01,0.01
@@ -73,7 +73,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 ,Cyber Inductance(tachyon) x1.4,stamina,dense jumpstream,13.4,13.18,0.22,0.22
 3477045,Electric Angel(e5v3) x1.2,speed,high stream,13.4,13.28,0.12,0.12
 ,Angel Dust(tachyon),speed,high stream,13.4,13.25,0.15,0.15
-,Defeat awaken battle ship,jack,high chordjack,13.4,13.21,0.19,0.19
+,Defeat awaken battle ship,jack,high chordjack,13.4,12.74,0.66,0.66
 ,WE LUV LAMA(gamma) x1.2,stamina,dense jumpstream,13,12.99,0.01,0.01
 ,Reflec Streamz(gamma),speed,low stream,13,13.38,-0.38,0.38
 ,Break(loved) x1.1,jack,high chordjack,13,12.79,0.21,0.21
@@ -110,7 +110,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 ,Odoru Mizushibuki x1.1,tech,jack tech,10.8,11.23,-0.43,0.43
 ,Towards the Horizon,tech,Unsigned,10.8,11.28,-0.48,0.48
 ,P8107 x0.95,speed,low stream,10.8,11.90,-1.10,1.10
-,Message(e2v2),speed,low stream,10.7,10.74,-0.04,0.04
+,Message(e2v2),speed,low stream,10.7,11.47,-0.77,0.77
 ,Moment x1.05,jack,high chordjack,10.6,10.82,-0.22,0.22
 ,Shin Takarajim(sp2v2),speed,Unsigned,10.5,11.20,-0.70,0.70
 ,Torikago,speed,mid stream,10.4,11.03,-0.63,0.63
@@ -190,108 +190,108 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 3107368,Rude Buster (Camellia Remix) x1.1,stamina,dense handstream,15,14.79,0.21,0.21
 1937582,Love is War x1.3,stamina,dense handstream,13.6,13.84,-0.24,0.24
 2553924,ametsuchi x1.2,jack,low chordjack,8.6,8.27,0.33,0.33
-,Oceanus(xfpsb1),ln,hybrid,9.5,8.60,0.90,0.90
-,Otenba Koimusume,ln,density,9.5,9.00,0.50,0.50
-,Gunjou Infinity [Buffed] (Cut),ln,speed,9.5,8.80,0.70,0.70
-,Orca [Broken-],ln,tech,9.5,9.00,0.50,0.50
-,Hanatachi ni Kibouwo 1.15x,ln,hybrid,10.5,10.60,-0.10,0.10
-,Akasha 1.05x,ln,density,10.5,10.80,-0.30,0.30
-,Ano Yume o Nazotte (Cut) 1.15x,ln,speed,10.5,10.20,0.30,0.30
-,Yoru ni Kakeru (xfpsb2 Cut) 1.05x,ln,tech,10.5,10.00,0.50,0.50
-,L4.8TS,ln,hybrid,11.5,11.40,0.10,0.10
-,Utakatayo Ikanaide [LN Edit] (Cut) 1.265x,ln,density,11.5,11.60,-0.10,0.10
-,bullet 1.15x,ln,speed,11.5,12.00,-0.50,0.50
-,HAMELN [Fanger] (Cut),ln,tech,11.5,9.20,2.30,2.30
-,Aegleseeker [Galaxy+],ln,hybrid,12.5,12.00,0.50,0.50
-,finorza (Cut),ln,density,12.5,12.20,0.30,0.30
-,Kokoro no Shitsuryou (Edit),ln,speed,12.5,12.20,0.30,0.30
-,Unmei no Haguruma (Edit),ln,tech,12.5,10.60,1.90,1.90
-,ReviveR,ln,hybrid,13.5,13.20,0.30,0.30
-,Unleashed World 1.075x,ln,density,13.5,13.00,0.50,0.50
-,Kairikou 1.125x,ln,speed,13.5,13.40,0.10,0.10
-,Identity Part 5 1.05x,ln,tech,13.5,13.20,0.30,0.30
-,Exitium 1.025x,ln,hybrid,14.5,14.20,0.30,0.30
-,Ultrasonic Anthem [Ultimate+] 1.1x,ln,density,14.5,14.40,0.10,0.10
-,Decoy 1.025x,ln,speed,14.5,14.40,0.10,0.10
-,Flamewall (Cut) [Edit] 1.15x,ln,tech,14.5,14.00,0.50,0.50
-,Snow Drive (Cut) 1.225x,ln,hybrid,15.5,16.40,-0.90,0.90
-,Kaku mo Yuubi na Hi to Narite (Cut) 1.1x,ln,density,15.5,16.40,-0.90,0.90
-,Tojita Sekai (xfpsbF Cut),ln,speed,15.5,14.80,0.70,0.70
-,Shuu no Hazama (xfpsbF Cut) 1.15x,ln,tech,15.5,14.80,0.70,0.70
-4608742,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Doki Doki Literature Club! ~ 2nd ~ (Marathon)],ln,hybrid,2,Invalid: estDiff contains bound symbol (< or >),,
-4608744,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Hitorigoto ~ 1st ~ (Marathon)],ln,hybrid,1,Invalid: estDiff contains bound symbol (< or >),,
-4608739,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [aura ~ 3rd ~ (Marathon)],ln,hybrid,3,Invalid: estDiff contains bound symbol (< or >),,
-4608750,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Otenba Koimusume ~ 4th ~ (Marathon)],ln,hybrid,4,Invalid: estDiff contains bound symbol (< or >),,
-4608751,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Pink Gold ~ 5th ~ (Marathon)],ln,hybrid,5,Invalid: estDiff contains bound symbol (< or >),,
-4608745,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Koborezu no Negaigoto ~ 6th ~ (Marathon)],ln,hybrid,6,Invalid: estDiff contains bound symbol (< or >),,
-4608749,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Missing Banquet ~ 8th ~ (Marathon)],ln,hybrid,8,8.00,0.00,0.00
-4608752,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Rock It ~ 7th ~ (Marathon)],ln,hybrid,7,6.60,0.40,0.40
-4608741,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Dodger's Gadget ~ 9th ~ (Marathon)],ln,hybrid,9,8.80,0.20,0.20
-4614499,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [towa no maigo 1.1x ~ 10th ~ (Marathon)],ln,hybrid,10,10.00,0.00,0.00
-4608747,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Kyouki Ranmai ~ Yoru ~ (Marathon)],ln,hybrid,13,12.80,0.20,0.20
-4608743,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Enigma 1.1x ~ Yoake ~ (Marathon)],ln,hybrid,11,11.20,-0.20,0.20
-4608740,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Carnation [ck remix] 1.05x ~ Yuugure ~ (Marathon)],ln,hybrid,12,12.00,0.00,0.00
-4608753,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Protoflicker 1.25x ~ Yokaze ~ (Marathon)],ln,hybrid,16,14.20,1.80,1.80
-4608748,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Mare Nectaris ~ Yami ~ (Marathon)],ln,hybrid,14,13.40,0.60,0.60
-4608746,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Kodoku no Kakurenbo 1.15x ~ Yume ~ (Marathon)],ln,hybrid,15,15.00,0.00,0.00
-4608999,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Dango Daikazoku ~ 1st ~ (Marathon)],ln,release,1,Invalid: estDiff contains bound symbol (< or >),,
-4614497,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [SPF 420 ~ 2nd ~ (Marathon)],ln,release,2,Invalid: estDiff contains bound symbol (< or >),,
-4609008,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Power To Progress ~ 6th ~ (Marathon)],ln,release,6,Invalid: estDiff contains bound symbol (< or >),,
-4609001,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Gee ~ 4th ~ (Marathon)],ln,release,4,Invalid: estDiff contains bound symbol (< or >),,
-4609011,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [silver temple ~ 3rd ~ (Marathon)],ln,release,3,Invalid: estDiff contains bound symbol (< or >),,
-4609004,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [MilK ~ 5th ~ (Marathon)],ln,release,5,Invalid: estDiff contains bound symbol (< or >),,
-4609010,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Shotgun Senorita [Zardonic Remix] ~ 8th ~ (Marathon)],ln,release,8,6.60,1.40,1.40
-4609007,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [On the FM ~ 7th ~ (Marathon)],ln,release,7,6.00,1.00,1.00
-4609009,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Raijin no Hidariude ~ 9th ~ (Marathon)],ln,release,9,7.40,1.60,1.60
-4609000,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Dopamine ~ 10th ~ (Marathon)],ln,release,10,9.00,1.00,1.00
-4609006,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [No. 6 ~ Yuugure ~ (Marathon)],ln,tech,12,10.00,2.00,2.00
-4608998,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Avalon no oka ~ Yoake ~ (Marathon)],ln,inverse,11,9.00,2.00,2.00
-4609003,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Intersect Thunderbolt -Remix ~ Yoru ~ (Marathon)],ln,tech,13,12.20,0.80,0.80
-4609002,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Inaiinai isonshou 1.25x ~ Yume ~ (Marathon)],ln,tech,15,13.80,1.20,1.20
-4609005,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Nhelv 1.05x ~ Yami ~ (Marathon)],ln,tech,14,13.80,0.20,0.20
-4609012,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Cinderella Cage -Trancecore Mix- 1.6x ~ Yokaze ~ (Marathon)],ln,tech,16,15.00,1.00,1.00
-4609086,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Nerevar Rising ~ 1st ~ (Marathon)],ln,inverse,1,Invalid: estDiff contains bound symbol (< or >),,
-4609080,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Heartbeats ~ 2nd ~ (Marathon)],ln,inverse,2,Invalid: estDiff contains bound symbol (< or >),,
-4609079,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [future gazer ~ 4th ~ (Marathon)],ln,inverse,4,Invalid: estDiff contains bound symbol (< or >),,
-4609081,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [i use raw expectation to unlock placebo. ~ 3rd ~ (Marathon)],ln,inverse,3,Invalid: estDiff contains bound symbol (< or >),,
-4609076,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [ 3 ~ 7th ~ (Marathon)],ln,inverse,7,Invalid: estDiff contains bound symbol (< or >),,
-4609085,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Mousou Express [Remix] ~ 6th ~ (Marathon)],ln,inverse,6,5.00,1.00,1.00
-4609087,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Promise ~ 5th ~ (Marathon)],ln,inverse,5,Invalid: estDiff contains bound symbol (< or >),,
-4609088,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Sakase natsuzora koi no hana. ~ 8th ~ (Marathon)],ln,inverse,8,6.60,1.40,1.40
-4609077,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [cold planet ~ 9th ~ (Marathon)],ln,inverse,9,7.80,1.20,1.20
-4609084,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Love is War ~ Yoake ~ (Marathon)],ln,density,11,11.00,0.00,0.00
-4609089,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Sakura Trip 1.15x ~ 10th ~ (Marathon)],ln,inverse,10,8.40,1.60,1.60
-4609078,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [ENDYMION ~ Yuugure ~ (Marathon)],ln,density,12,12.00,0.00,0.00
-4609083,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Literal Crystal In The Cyphisonia 1.15x ~ Yoru ~],ln,density,13,13.00,0.00,0.00
-4609082,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Indomitable Spirit [Hommarju Remix] 1.5x ~ Yami ~ (Marathon)],ln,density,14,13.00,1.00,1.00
-4614495,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Lancelot -Flame of the Rebellion- 1.35x ~ Yokaze ~ (Marathon)],ln,density,16,14.80,1.20,1.20
-4609090,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [White Hair Little Swords Girl 1.025x ~ Yume ~ (Marathon)],ln,density,15,14.40,0.60,0.60
-4609231,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Trickl4sh 220 ~ 1st ~ (Marathon)],ln,density,1,Invalid: estDiff contains bound symbol (< or >),,
-4609229,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Rockhill ~ 2nd ~ (Marathon)],ln,density,2,Invalid: estDiff contains bound symbol (< or >),,
-4609227,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [OVERDRIVERS ~ 3rd ~ (Marathon)],ln,density,3,5.00,-2.00,2.00
-4609221,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Blacksphere ~ 5th ~ (Marathon)],ln,density,5,Invalid: estDiff contains bound symbol (< or >),,
-4609217,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [#FairyJoke #SDVX_Edit ~ 4th ~ (Marathon)],ln,density,4,6.40,-2.40,2.40
-4609220,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Berry Go!! ~ 6th ~ (Marathon)],ln,density,6,6.60,-0.60,0.60
-4609228,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Owari to Hajimari no Oto ~ 8th ~ (Marathon)],ln,density,8,8.20,-0.20,0.20
-4614493,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Tsumibito ~ 7th ~ (Marathon)],ln,density,7,8.20,-1.20,1.20
-4609226,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Ordinary world ~ 9th ~ (Marathon)],ln,density,9,9.00,0.00,0.00
-4609222,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Element of SPADA 1.1x ~ 10th ~ (Marathon)],ln,speed,12,10.40,1.60,1.60
-4609219,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [asphyxia 1.05x ~ Yoake ~ (Marathon)],ln,speed,11,10.60,0.40,0.40
-4609230,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [The lost ~ Yami ~ (Marathon)],ln,speed,14,13.80,0.20,0.20
-4609225,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [NUCLEAR-STAR ~ Yume ~ (Marathon)],ln,speed,15,14.40,0.60,0.60
-4609224,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [NEURO-CLOUD-9 ~ Yoru ~ (Marathon)],ln,speed,13,12.80,0.20,0.20
-4609232,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [R U Still xxxx 1.15x ~ Yokaze ~ (Marathon)],ln,speed,16,16.40,-0.40,0.40
-4351661,Laur - Kokushi musou [World's Final End (17th edit)],ln,Unsigned,17,16.60,0.40,0.40
-4517847,Ludicin - Onus Rēgulus [In Abyss],ln,Unsigned,17,15.16,1.84,1.84
-5029140,Various Artist - 4K LN Dan Courses - EXTRA - [17th Dan - Yeehee (Marathon)],ln,Unsigned,17,14.82,2.18,2.18
-5366651,Ludicin - Blossom of Ashes [Divination of Calamity],ln,density,14.5,14.40,0.10,0.10
-5366777,takehirotei - 定时地狱 ~The Perpetual Chaotically Unsynced Pendulum~ [Convergence],ln,Unsigned,14,14.00,0.00,0.00
-4824023,Laur - 国士無双 [LN bukbuk],ln,Unsigned,14.8,14.80,0.00,0.00
-4732296,ウォルピスカーター - Oxalis [Imitation],ln,Unsigned,13.6,13.40,0.20,0.20
-4652576,Xyris - Eviternity [LN Eviternity],ln,Unsigned,14.4,14.60,-0.20,0.20
-3793375,ああ…翡翠茶漬け… - stεganography [Cipher Encryption],ln,Unsigned,13.8,13.80,0.00,0.00
-4398536,Various Artists - Begin's 4K LN Pack Level 3 [Nanahoshi Kangengakudan - Andromeda],ln,density,15.2,14.60,0.60,0.60
-4398537,Various Artists - Begin's 4K LN Pack Level 3 [ROKINA - Icicle Stinger],ln,density,15.4,15.00,0.40,0.40
+,Oceanus(xfpsb1),ln,hybrid,9.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Otenba Koimusume,ln,density,9.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Gunjou Infinity [Buffed] (Cut),ln,speed,9.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Orca [Broken-],ln,tech,9.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Hanatachi ni Kibouwo 1.15x,ln,hybrid,10.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Akasha 1.05x,ln,density,10.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Ano Yume o Nazotte (Cut) 1.15x,ln,speed,10.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Yoru ni Kakeru (xfpsb2 Cut) 1.05x,ln,tech,10.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,L4.8TS,ln,hybrid,11.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Utakatayo Ikanaide [LN Edit] (Cut) 1.265x,ln,density,11.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,bullet 1.15x,ln,speed,11.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,HAMELN [Fanger] (Cut),ln,tech,11.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Aegleseeker [Galaxy+],ln,hybrid,12.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,finorza (Cut),ln,density,12.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Kokoro no Shitsuryou (Edit),ln,speed,12.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Unmei no Haguruma (Edit),ln,tech,12.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,ReviveR,ln,hybrid,13.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Unleashed World 1.075x,ln,density,13.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Kairikou 1.125x,ln,speed,13.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Identity Part 5 1.05x,ln,tech,13.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Exitium 1.025x,ln,hybrid,14.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Ultrasonic Anthem [Ultimate+] 1.1x,ln,density,14.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Decoy 1.025x,ln,speed,14.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Flamewall (Cut) [Edit] 1.15x,ln,tech,14.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Snow Drive (Cut) 1.225x,ln,hybrid,15.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Kaku mo Yuubi na Hi to Narite (Cut) 1.1x,ln,density,15.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Tojita Sekai (xfpsbF Cut),ln,speed,15.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+,Shuu no Hazama (xfpsbF Cut) 1.15x,ln,tech,15.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608742,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Doki Doki Literature Club! ~ 2nd ~ (Marathon)],ln,hybrid,2,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608744,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Hitorigoto ~ 1st ~ (Marathon)],ln,hybrid,1,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608739,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [aura ~ 3rd ~ (Marathon)],ln,hybrid,3,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608750,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Otenba Koimusume ~ 4th ~ (Marathon)],ln,hybrid,4,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608751,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Pink Gold ~ 5th ~ (Marathon)],ln,hybrid,5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608745,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Koborezu no Negaigoto ~ 6th ~ (Marathon)],ln,hybrid,6,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608749,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Missing Banquet ~ 8th ~ (Marathon)],ln,hybrid,8,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608752,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Rock It ~ 7th ~ (Marathon)],ln,hybrid,7,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608741,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Dodger's Gadget ~ 9th ~ (Marathon)],ln,hybrid,9,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4614499,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [towa no maigo 1.1x ~ 10th ~ (Marathon)],ln,hybrid,10,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608747,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Kyouki Ranmai ~ Yoru ~ (Marathon)],ln,hybrid,13,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608743,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Enigma 1.1x ~ Yoake ~ (Marathon)],ln,hybrid,11,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608740,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Carnation [ck remix] 1.05x ~ Yuugure ~ (Marathon)],ln,hybrid,12,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608753,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Protoflicker 1.25x ~ Yokaze ~ (Marathon)],ln,hybrid,16,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608748,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Mare Nectaris ~ Yami ~ (Marathon)],ln,hybrid,14,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608746,Various Artists - 4K LN Dan Courses v2 ~ Stage 1 Map Pack ~ [Kodoku no Kakurenbo 1.15x ~ Yume ~ (Marathon)],ln,hybrid,15,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608999,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Dango Daikazoku ~ 1st ~ (Marathon)],ln,release,1,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4614497,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [SPF 420 ~ 2nd ~ (Marathon)],ln,release,2,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609008,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Power To Progress ~ 6th ~ (Marathon)],ln,release,6,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609001,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Gee ~ 4th ~ (Marathon)],ln,release,4,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609011,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [silver temple ~ 3rd ~ (Marathon)],ln,release,3,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609004,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [MilK ~ 5th ~ (Marathon)],ln,release,5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609010,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Shotgun Senorita [Zardonic Remix] ~ 8th ~ (Marathon)],ln,release,8,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609007,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [On the FM ~ 7th ~ (Marathon)],ln,release,7,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609009,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Raijin no Hidariude ~ 9th ~ (Marathon)],ln,release,9,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609000,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Dopamine ~ 10th ~ (Marathon)],ln,release,10,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609006,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [No. 6 ~ Yuugure ~ (Marathon)],ln,tech,12,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4608998,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Avalon no oka ~ Yoake ~ (Marathon)],ln,inverse,11,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609003,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Intersect Thunderbolt -Remix ~ Yoru ~ (Marathon)],ln,tech,13,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609002,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Inaiinai isonshou 1.25x ~ Yume ~ (Marathon)],ln,tech,15,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609005,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Nhelv 1.05x ~ Yami ~ (Marathon)],ln,tech,14,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609012,Various Artists - 4K LN Dan Courses v2 ~ Stage 2 Map Pack ~ [Cinderella Cage -Trancecore Mix- 1.6x ~ Yokaze ~ (Marathon)],ln,tech,16,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609086,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Nerevar Rising ~ 1st ~ (Marathon)],ln,inverse,1,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609080,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Heartbeats ~ 2nd ~ (Marathon)],ln,inverse,2,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609079,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [future gazer ~ 4th ~ (Marathon)],ln,inverse,4,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609081,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [i use raw expectation to unlock placebo. ~ 3rd ~ (Marathon)],ln,inverse,3,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609076,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [ 3 ~ 7th ~ (Marathon)],ln,inverse,7,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609085,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Mousou Express [Remix] ~ 6th ~ (Marathon)],ln,inverse,6,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609087,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Promise ~ 5th ~ (Marathon)],ln,inverse,5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609088,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Sakase natsuzora koi no hana. ~ 8th ~ (Marathon)],ln,inverse,8,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609077,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [cold planet ~ 9th ~ (Marathon)],ln,inverse,9,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609084,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Love is War ~ Yoake ~ (Marathon)],ln,density,11,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609089,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Sakura Trip 1.15x ~ 10th ~ (Marathon)],ln,inverse,10,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609078,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [ENDYMION ~ Yuugure ~ (Marathon)],ln,density,12,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609083,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Literal Crystal In The Cyphisonia 1.15x ~ Yoru ~],ln,density,13,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609082,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Indomitable Spirit [Hommarju Remix] 1.5x ~ Yami ~ (Marathon)],ln,density,14,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4614495,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [Lancelot -Flame of the Rebellion- 1.35x ~ Yokaze ~ (Marathon)],ln,density,16,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609090,Various Artists - 4K LN Dan Courses v2 ~ Stage 3 Map Pack ~ [White Hair Little Swords Girl 1.025x ~ Yume ~ (Marathon)],ln,density,15,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609231,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Trickl4sh 220 ~ 1st ~ (Marathon)],ln,density,1,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609229,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Rockhill ~ 2nd ~ (Marathon)],ln,density,2,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609227,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [OVERDRIVERS ~ 3rd ~ (Marathon)],ln,density,3,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609221,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Blacksphere ~ 5th ~ (Marathon)],ln,density,5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609217,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [#FairyJoke #SDVX_Edit ~ 4th ~ (Marathon)],ln,density,4,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609220,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Berry Go!! ~ 6th ~ (Marathon)],ln,density,6,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609228,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Owari to Hajimari no Oto ~ 8th ~ (Marathon)],ln,density,8,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4614493,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Tsumibito ~ 7th ~ (Marathon)],ln,density,7,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609226,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Ordinary world ~ 9th ~ (Marathon)],ln,density,9,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609222,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [Element of SPADA 1.1x ~ 10th ~ (Marathon)],ln,speed,12,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609219,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [asphyxia 1.05x ~ Yoake ~ (Marathon)],ln,speed,11,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609230,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [The lost ~ Yami ~ (Marathon)],ln,speed,14,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609225,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [NUCLEAR-STAR ~ Yume ~ (Marathon)],ln,speed,15,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609224,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [NEURO-CLOUD-9 ~ Yoru ~ (Marathon)],ln,speed,13,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4609232,Various Artists - 4K LN Dan Courses v2 ~ Stage 4 Map Pack ~ [R U Still xxxx 1.15x ~ Yokaze ~ (Marathon)],ln,speed,16,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4351661,Laur - Kokushi musou [World's Final End (17th edit)],ln,Unsigned,17,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4517847,Ludicin - Onus Rēgulus [In Abyss],ln,Unsigned,17,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+5029140,Various Artist - 4K LN Dan Courses - EXTRA - [17th Dan - Yeehee (Marathon)],ln,Unsigned,17,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+5366651,Ludicin - Blossom of Ashes [Divination of Calamity],ln,density,14.5,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+5366777,takehirotei - 定时地狱 ~The Perpetual Chaotically Unsynced Pendulum~ [Convergence],ln,Unsigned,14,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4824023,Laur - 国士無双 [LN bukbuk],ln,Unsigned,14.8,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4732296,ウォルピスカーター - Oxalis [Imitation],ln,Unsigned,13.6,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4652576,Xyris - Eviternity [LN Eviternity],ln,Unsigned,14.4,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+3793375,ああ…翡翠茶漬け… - stεganography [Cipher Encryption],ln,Unsigned,13.8,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4398536,Various Artists - Begin's 4K LN Pack Level 3 [Nanahoshi Kangengakudan - Andromeda],ln,density,15.2,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
+4398537,Various Artists - Begin's 4K LN Pack Level 3 [ROKINA - Icicle Stinger],ln,density,15.4,Invalid: LN benchmark rows are skipped by Roxy RC scope,,
 2808346,Dark Sambaland[Easy](mizuki) x1.05,jack,anchor chordjack,14.6,14.65,-0.05,0.05
 3580764,Dark Sambaland[Easy](mizuki) x1.2,jack,anchor chordjack,16.4,16.03,0.37,0.37
 3245370,Martial Arts(xingren),jack,anchor chordjack,10.5,10.81,-0.31,0.31
@@ -492,7 +492,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 4487955,OdoRobo(jinkill) x1.1,jack,high chordjack,14.1,14.00,0.10,0.10
 3476974,Don't let you down(rg8v3),jack,high chordjack,7.9,8.45,-0.55,0.55
 3476968,Kikai Shoujo Gensou(rg9v3),jack,high chordjack,8.5,9.77,-1.27,1.27
-3824604,Hifumi Daisuki[Hard](Magikarp1234),jack,high chordjack,13.6,13.20,0.40,0.40
+3824604,Hifumi Daisuki[Hard](Magikarp1234),jack,high chordjack,13.6,12.53,1.07,1.07
 4010826,Re Aoharu(magikarp),jack,high chordjack,4.8,4.11,0.69,0.69
 4388484,hurricanic(stupud man),speed,high stream,14,13.90,0.10,0.10
 3171267,hurricanic(stupud man) x1.05,speed,high stream,14.4,14.29,0.11,0.11
@@ -510,7 +510,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 3321840,Yozakura(ska),speed,high stream,14.3,14.28,0.02,0.02
 3321839,Yozakura(ska) x1.05,speed,high stream,14.6,14.67,-0.07,0.07
 1455991,Moon Gate x1.2,speed,high stream,14.6,14.89,-0.29,0.29
-5255749,Moon Gate x1.25,speed,high stream,15,14.73,0.27,0.27
+5255749,Moon Gate x1.25,speed,high stream,15,15.48,-0.48,0.48
 5195385,Blue Noah 2006[Lv.28](attang) 0.95,speed,high stream,14,14.09,-0.09,0.09
 1496206,Blue Noah 2006[Lv.28](attang),speed,high stream,14.6,14.30,0.30,0.30
 1644632,Blue Noah 2006[Lv.28](attang) x1.1,speed,high stream,15.4,15.35,0.05,0.05
@@ -533,7 +533,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 4606873,Still Into You(ska) x1.16,tech,jack tech,13.4,13.84,-0.44,0.44
 3322182,BLUE ARMY[UNFORGIVING ASSAULT],stamina,light handstream,13.4,13.48,-0.08,0.08
 4610329,BLUE ARMY[UNFORGIVING ASSAULT] x1.06,stamina,light handstream,13.8,14.34,-0.54,0.54
-3645838,The Empress(underjoy) x1.1,stamina,light handstream,14.6,14.47,0.13,0.13
+3645838,The Empress(underjoy) x1.1,stamina,light handstream,14.6,14.03,0.57,0.57
 3645837,The Empress(underjoy) x1.15,stamina,light handstream,15,14.93,0.07,0.07
 5194163,Firmament Castle Velier x1.3,stamina,light handstream,14,13.77,0.23,0.23
 4589591,Speed of Link[Tachyon](shoegazer) 1.23,stamina,light jumpstream,14,14.12,-0.12,0.12
@@ -618,7 +618,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 ,Various Artists - Dan ~ REFORM ~ 1st Pack (Thaumiel) [~ 5th ~ (Marathon)],course,rc course,5,6.00,-1.00,1.00
 ,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 6th ~ (Marathon)],course,rc course,6,6.50,-0.50,0.50
 ,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 7th ~ (Marathon)],course,rc course,7,6.66,0.34,0.34
-,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 8th ~ (Marathon)],course,rc course,8,9.77,-1.77,1.77
+,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 8th ~ (Marathon)],course,rc course,8,9.00,-1.00,1.00
 ,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 9th ~ (Marathon)],course,rc course,9,9.23,-0.23,0.23
 ,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ 10th ~ (Marathon)],course,rc course,10,10.59,-0.59,0.59
 ,Various Artists - Dan ~ REFORM ~ 2nd Pack (Thaumiel) [~ EXTRA-ALPHA ~ (Marathon)],course,rc course,11,11.09,-0.09,0.09
@@ -636,7 +636,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 5320774,Dan - Signicial's Courses[[4K] Stage IX - Catastrophe [9th Dan] (Marathon)],course,rc course,8.7,8.61,0.09,0.09
 5031834,Dan - Signicial's Courses[[4K] Stage X - Finale [10th Dan] (Marathon)],course,rc course,9.6,9.43,0.17,0.17
 3216602,Dan - Signicial's Courses[[4K] Stage XI - Alpha [11th Dan] (Marathon)],course,rc course,10.5,10.98,-0.48,0.48
-5637760,Dan - Signicial's Courses[[4K] Special Stage I - Luminal [11.5th Dan] (Marathon)],course,rc course,11.1,11.35,-0.25,0.25
+5637760,Dan - Signicial's Courses[[4K] Special Stage I - Luminal [11.5th Dan] (Marathon)],course,rc course,11.1,10.77,0.33,0.33
 3216603,Dan - Signicial Courses[[4K] Stage XII - Beta [12th Dan] (Marathon)],course,rc course,11.8,11.87,-0.07,0.07
 3216604,Dan - Signicial's Courses[[4K] Stage XIII - Gamma [13th Dan] (Marathon)],course,rc course,12.7,12.61,0.09,0.09
 3216606,Dan - Signicial's Courses[[4K] Stage XIV - Delta [14th Dan] (Marathon)],course,rc course,13.7,14.07,-0.37,0.37
@@ -652,14 +652,14 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 5695355,Saltwater Chicken & Duck Roasted Chicken & Duck(signicial dan),jack,low chordjack,6.6,6.22,0.38,0.38
 5695349,EVERGREEN(signicial dan),jack,mid chordjack,7.4,6.96,0.44,0.44
 5695345,Alea jacta est(signicial dan),jack,low chordjack,8.4,7.11,1.29,1.29
-5695353,What is love(signicial dan),jack,high chordjack,9.1,9.60,-0.50,0.50
+5695353,What is love(signicial dan),jack,high chordjack,9.1,8.90,0.20,0.20
 5695359,Count What You Have Now(signicial dan) x1.05,jack,high chordjack,10.3,10.10,0.20,0.20
 5590322,Cryonix(signicial dan),jack,low chordjack,11.5,11.75,-0.25,0.25
 5695348,lost found melody(signicial dan),jack,low chordjack,11.8,11.29,0.51,0.51
 5695354,The Safari(signicial dan),jack,anchor chordjack,12.6,11.98,0.62,0.62
 5695350,Nijiiro Kekkai Gekkyou no Goku(signicial dan),jack,anchor chordjack,13.6,13.45,0.15,0.15
 5590317,Nijuu(signicial dan),jack,anchor chordjack,14.5,14.67,-0.17,0.17
-5695352,Ragnarok(signicial dan) x0.9,jack,high chordjack,16.1,16.54,-0.44,0.44
+5695352,Ragnarok(signicial dan) x0.9,jack,high chordjack,16.1,16.13,-0.03,0.03
 5370048,Ambitious(signicial dan),tech,stream tech,3.3,2.36,0.94,0.94
 5370044,for Q(signicial dan),tech,stream tech,3.7,4.11,-0.41,0.41
 5370045,kibou no tsuki(signicial dan),tech,jack tech,4.5,4.54,-0.04,0.04
@@ -668,7 +668,7 @@ bid,name,pattern,subPattern,expected,got,delta,deltaAbs
 5370050,Hestia(signicial dan),tech,stream tech,7.8,5.90,1.90,1.90
 5370046,T'Suramic(signicial dan),tech,stream tech,9.6,8.60,1.00,1.00
 5370036,Nowise(signicial dan),tech,jack tech,10.5,10.10,0.40,0.40
-5590320,Veins Resonance(signicial dan),tech,jack tech,10.7,10.19,0.51,0.51
+5590320,Veins Resonance(signicial dan),tech,jack tech,10.7,9.66,1.04,1.04
 5370049,Rainshower(signicial dan),tech,jack tech,11.6,11.52,0.08,0.08
 5370039,Sulfide(signicial dan),tech,stream tech,13.5,13.98,-0.48,0.48
 5590318,sirens eye(signicial dan),tech,stream tech,14.4,14.13,0.27,0.27
