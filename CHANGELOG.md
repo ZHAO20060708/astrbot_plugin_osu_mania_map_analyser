@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.9
+
+- Detect missing Chromium shared libraries on Linux with `ldd`.
+- Automatically run Playwright's official `install-deps chromium` workflow when
+  a root-based AstrBot container does not include the required system packages.
+- Allow the plugin to run on the official AstrBot image without a locally
+  derived Playwright image.
+
 ## 0.1.8
 
 - Synced the embedded analyser with the latest upstream Roxy and rendering fixes.

@@ -19,7 +19,9 @@
 
 - AstrBot `>=4.16,<5`
 - Python 依赖见 [`requirements.txt`](requirements.txt)
-- Linux 主机需具备 Chromium 所需的系统运行库
+- Linux 容器需允许插件安装 Chromium 系统运行库；官方 AstrBot 镜像默认以
+  root 运行，插件会在检测到缺失共享库时调用 Playwright 官方
+  `install-deps chromium` 流程自动补齐
 - 首次运行需要访问 PyPI 和 Playwright 浏览器下载源
 
 AstrBot 会先安装 `requirements.txt` 中声明的 Python 依赖。插件会将 Playwright Chromium 和必要的后备运行环境保存在：
@@ -28,7 +30,7 @@ AstrBot 会先安装 `requirements.txt` 中声明的 Python 依赖。插件会�
 data/plugin_data/astrbot_plugin_osu_mania_map_analyser/runtime/
 ```
 
-该目录不会在插件更新时被覆盖。首次启动可能需要较长时间，后续启动会复用已经安装的浏览器。
+该目录不会在插件更新时被覆盖。首次启动可能需要较长时间，后续启动会复用已经安装的浏览器。容器重建后浏览器文件仍会保留；系统共享库属于容器自身，插件会在首次启动时重新检测并按需安装。
 
 ## 安装
 

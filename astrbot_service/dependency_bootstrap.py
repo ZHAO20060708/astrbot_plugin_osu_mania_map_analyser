@@ -39,8 +39,11 @@ def bootstrap_plugin_runtime(plugin_root: Path, plugin_data_root: Path) -> None:
     # target directory is only a fallback for non-standard installations.
     packages_ready = not missing_modules
     browser_ready = _has_playwright_browser(browser_dir)
+    missing_browser_libraries = (
+        _find_missing_browser_libraries(browser_dir) if browser_ready else []
+    )
 
-    if packages_ready and browser_ready:
+    if packages_ready and browser_ready and not missing_browser_libraries:
         return
 
     install_env = _build_install_env(vendor_dir, browser_dir)
@@ -104,6 +107,31 @@ def bootstrap_plugin_runtime(plugin_root: Path, plugin_data_root: Path) -> None:
         saved_state["browser_installed"] = True
         _save_state(state_file, saved_state)
 
+    missing_browser_libraries = _find_missing_browser_libraries(browser_dir)
+    if missing_browser_libraries:
+        logger.info(
+            "Installing Playwright Chromium system dependencies: %s",
+            ", ".join(missing_browser_libraries),
+        )
+        _run_command(
+            [
+                sys.executable,
+                "-m",
+                "playwright",
+                "install-deps",
+                "chromium",
+            ],
+            env=install_env,
+            timeout=1800,
+            error_prefix="安装 Playwright Chromium 系统依赖失败",
+        )
+        missing_browser_libraries = _find_missing_browser_libraries(browser_dir)
+        if missing_browser_libraries:
+            raise RuntimeError(
+                "Playwright Chromium 系统依赖安装后仍有缺失: "
+                + ", ".join(missing_browser_libraries)
+            )
+
 
 def _prepend_sys_path(path: Path) -> None:
     path_str = str(path)
@@ -145,13 +173,17 @@ def _find_missing_modules() -> list[str]:
 
 
 def _has_playwright_browser(browser_dir: Path) -> bool:
+    return _find_playwright_browser_executable(browser_dir) is not None
+
+
+def _find_playwright_browser_executable(browser_dir: Path) -> Path | None:
     if not browser_dir.is_dir():
-        return False
+        return None
 
     try:
         playwright_spec = importlib.util.find_spec("playwright")
         if playwright_spec is None or playwright_spec.origin is None:
-            return False
+            return None
         browsers_file = (
             Path(playwright_spec.origin).parent
             / "driver"
@@ -160,7 +192,7 @@ def _has_playwright_browser(browser_dir: Path) -> bool:
         )
         browsers = json.loads(browsers_file.read_text(encoding="utf-8"))["browsers"]
     except (KeyError, OSError, TypeError, ValueError, json.JSONDecodeError):
-        return False
+        return None
 
     executable_names = {
         "chrome",
@@ -201,8 +233,41 @@ def _has_playwright_browser(browser_dir: Path) -> bool:
             continue
         for path in candidate.rglob("*"):
             if path.is_file() and path.name.lower() in executable_names:
-                return True
-    return False
+                return path
+    return None
+
+
+def _find_missing_browser_libraries(browser_dir: Path) -> list[str]:
+    if not sys.platform.startswith("linux"):
+        return []
+
+    executable = _find_playwright_browser_executable(browser_dir)
+    if executable is None:
+        return []
+
+    try:
+        completed = subprocess.run(
+            ["ldd", str(executable)],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        logger.warning("Unable to inspect Chromium shared libraries: %s", exc)
+        return ["共享库检测工具不可用"]
+
+    output = "\n".join(
+        chunk for chunk in (completed.stdout, completed.stderr) if chunk
+    )
+    missing = []
+    for line in output.splitlines():
+        if "=> not found" not in line:
+            continue
+        library_name = line.split("=>", 1)[0].strip()
+        if library_name:
+            missing.append(library_name)
+    return sorted(set(missing))
 
 
 def _build_install_env(vendor_dir: Path, browser_dir: Path) -> dict[str, str]:
@@ -212,6 +277,7 @@ def _build_install_env(vendor_dir: Path, browser_dir: Path) -> dict[str, str]:
         f"{vendor_dir}{os.pathsep}{python_path}" if python_path else str(vendor_dir)
     )
     env["PLAYWRIGHT_BROWSERS_PATH"] = str(browser_dir)
+    env["DEBIAN_FRONTEND"] = "noninteractive"
     return env
 
 
