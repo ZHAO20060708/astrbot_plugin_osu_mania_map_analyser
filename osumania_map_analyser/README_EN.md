@@ -57,7 +57,7 @@ Note: It is recommended to start with the default settings and then adjust accor
         - Note: For non-4/6/7K beatmaps, body content automatically falls back to Pattern.
     - **Top-left Capsule Text**: Select what to display in the top-left capsule.
         - Auto: Automatically selects ReworkSR or MSD based on the LN ratio of the beatmap.
-        - ReworkSR: Displays [Suuny Rework](https://github.com/sunnyxxy/Star-Rating-Rebirth) star rating.
+        - ReworkSR: Displays star rating from the bundled [sunny-rework-js](https://github.com/ZHAO20060708/sunny-rework-js) compatibility implementation.
         - MSD: Displays Etterna MSD. *Only compatible with 4/6/7K beatmaps.
         - InterludeSR: Displays [Interlude](https://github.com/YAVSRG/YAVSRG) star rating.
         - Pattern: Displays the overall pattern.
@@ -67,7 +67,7 @@ Note: It is recommended to start with the default settings and then adjust accor
         - Difficulty: Displays the estimated difficulty.
         - MSD: Displays Etterna MSD. *Only compatible with 4/6/7K beatmaps.
         - InterludeSR: Displays Interlude star rating.
-        - ReworkSR: Displays Suuny Rework star rating.
+        - ReworkSR: Displays Sunny Rework star rating.
         - Pattern: Displays the overall pattern.
     - **Map Tag Capsule**: Whether to display the beatmap tag capsule.
         - Includes HB/RC/LN/Mix/SV tags.
@@ -75,7 +75,7 @@ Note: It is recommended to start with the default settings and then adjust accor
 - **Theme & Effects**:
     - **osu!Lazer Card Theme**: Whether to enable the Lazer-style card theme.
         - When enabled, the card adopts a design style similar to osu!lazer, and enables certain settings only available under the Lazer theme.
-    - **osu! Font**: Whether to use the bundled Torus font inside the card only.
+    - **osu! Font**: Whether to use the bundled 975 Yuan font inside the card only.
     - **Floating Triangles Animation**: Whether to enable the floating triangle animation effect on the card background.
         - This option only takes effect when the Lazer Card Theme is enabled.
     - **Cover Art Background**: Whether to use the beatmap's background image as the card background.
@@ -118,7 +118,7 @@ Note: It is recommended to start with the default settings and then adjust accor
         - Mixed: (Recommended) A hybrid algorithm combining the four below, offering relatively higher accuracy. Automatically selects the algorithm best suited for the current beatmap.
         - Azusa: A fusion algorithm oriented towards 4K RC, combining the algorithms below with targeted adjustments. Performs well in RC scenarios but is not suitable for LN-dominant beatmaps.
         - Roxy: A 4K RC meta-structural estimator. It models the beatmap using structural analysis and then blends reference predictions from Azusa/Sunny/Daniel using a GBDT meta-model.
-        - Suuny: Maps directly to Dan star ratings using Suuny Rework. Compatible with LN and RC Dans for 4/6/7K.
+        - Sunny: Maps directly to Dan star ratings using the bundled `sunny-rework-js` compatibility implementation. Compatible with LN and RC Dans for 4/6/7K.
         - [Daniel](https://thebagelofman.github.io/Daniel/): Uses the Daniel algorithm for estimation, suitable for 4K Reform Alpha and above Dan difficulties.
         - [Companella](https://github.com/Leinadix/companella): Uses the Companella algorithm for estimation, suitable for 4K Reform Delta+ and below Dan difficulties.
     - **Global Etterna Version**: Select the Etterna MinaCalc version used for MSD and related calculations.
@@ -149,12 +149,12 @@ Roxy is a 4K RC meta-structural estimator. Its core consists of two layers: the 
 Please note that as a tree-based model, the GBDT meta-model can exhibit boundary discontinuities: a miniscule change in input features (e.g., a 0.01× speed rate difference) may cross a decision tree split threshold and produce a disproportionately large jump in the output difficulty. Users should be aware of this inherent characteristic of tree-based estimators.
 
 ## Azusa Algorithm Explanation
-This algorithm builds on the beatmap itself, combining the results of Daniel and Suuny Rework, with specific adjustments targeted at 4K RC beatmaps. For more details, please refer to [this document](azusa_algorithm.md) (English).
+This algorithm builds on the beatmap itself, combining the results of Daniel and Sunny Rework, with specific adjustments targeted at 4K RC beatmaps. For more details, please refer to [this document](azusa_algorithm.md) (English).
 
 ## References
 - [tosu](https://tosu.app): The runtime environment and basic framework for this plugin.
 - [Etterna](https://github.com/etternagame/etterna): Etterna's MinaCalc is used for difficulty estimation and MSD calculation.
-- [Suuny Rework](https://github.com/sunnyxxy/Star-Rating-Rebirth): Suuny Rework's algorithm is used for difficulty estimation.
+- [Sunny Rework](https://github.com/ZHAO20060708/sunny-rework-js): Uses the bundled `sunny-rework-js` compatibility implementation (target revision 2025-04-15) for difficulty estimation.
 - [Interlude](https://github.com/YAVSRG/YAVSRG): Interlude's RC pattern analysis algorithm is used, with LN detection logic added on top.
 - [Daniel](https://thebagelofman.github.io/Daniel/): Daniel's algorithm is used for difficulty estimation.
 - [Companella](https://github.com/Leinadix/companella): Companella's algorithm is used for difficulty estimation.

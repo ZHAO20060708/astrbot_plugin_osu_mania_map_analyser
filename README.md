@@ -2,7 +2,7 @@
 
 `astrbot_plugin_osu_mania_map_analyser` 是面向 AstrBot 的 osu!mania 谱面分析插件。插件根据 Beatmap ID 下载谱面，通过 Playwright 驱动 Chromium 渲染分析卡片，并将结果图片发送到当前会话。
 
-本仓库由 [ZHAO20060708](https://github.com/ZHAO20060708) 基于 [2710165659/astrbot_plugin_osu_mania_map_analyser](https://github.com/2710165659/astrbot_plugin_osu_mania_map_analyser) 维护，并集成 [LeoBlackMT/osumania_map_analyser](https://github.com/LeoBlackMT/osumania_map_analyser) 的分析与可视化代码。
+本仓库由 [ZHAO20060708](https://github.com/ZHAO20060708) 基于 [2710165659/astrbot_plugin_osu_mania_map_analyser](https://github.com/2710165659/astrbot_plugin_osu_mania_map_analyser) 维护，并集成 [LeoBlackMT/osumania_map_analyser](https://github.com/LeoBlackMT/osumania_map_analyser) 的分析与可视化代码。Sunny Rework 使用内置的 [sunny-rework-js](https://github.com/ZHAO20060708/sunny-rework-js) 兼容实现，卡片字体使用 975 Yuan。
 
 ![渲染示例](image.png)
 
@@ -94,4 +94,4 @@ data/plugin_data/astrbot_plugin_osu_mania_map_analyser/
 
 ## 许可证与致谢
 
-请分别遵守本仓库及所集成上游项目的许可证。感谢 AstrBot、Playwright、osu! 社区及相关算法作者的工作。
+请分别遵守本仓库及所集成上游项目的许可证，第三方许可证见 [`LICENSES/`](LICENSES/) 和 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。感谢 AstrBot、Playwright、osu! 社区及相关算法作者的工作。
